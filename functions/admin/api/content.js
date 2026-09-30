@@ -5,8 +5,10 @@ export async function onRequestPut({request,env}){
   if(!Array.isArray(data.events)||data.events.length>40||typeof data.special!=='object')return new Response('Invalid content',{status:400});
   const events=[];
   for(const item of data.events){
+    const status=item.status||'serving';
+    if(!['serving','not-serving'].includes(status))return new Response('Invalid event status',{status:400});
     if(!/^\d{4}-\d{2}-\d{2}$/.test(item.date)||!/^\d{2}:\d{2}$/.test(item.time)||typeof item.venue!=='string'||item.venue.length>120)return new Response('Invalid event',{status:400});
-    events.push({date:item.date,time:item.time,venue:item.venue});
+    events.push({date:item.date,time:item.time,venue:item.venue,status});
   }
   const special={};for(const field of ['name','description','price']){const value=data.special[field]||'';if(typeof value!=='string'||value.length>300)return new Response('Invalid special',{status:400});special[field]=value}
   await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special}));

@@ -559,6 +559,10 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
 #popup .popup-video-panel{aspect-ratio:16/9!important;align-self:start;overflow:hidden}
 #popup .popup-video-panel video,#popup .popup-video-panel img{width:100%;height:auto;display:block;object-fit:contain}
 #popup .popup-video-panel [hidden]{display:none!important}
+</style><style>
+#bob-home #upcomingDates{flex-wrap:wrap!important}
+#bob-home .home-dates .date-card.date-cancelled{background:#a62d36!important;color:#fff8ed!important;border-color:#d57575!important}
+#bob-home .home-dates .date-card.date-cancelled strong,#bob-home .home-dates .date-card.date-cancelled small{color:#fff8ed!important}
 </style></head>
 <body id="bob-home">
 
@@ -1401,20 +1405,24 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
       const data=await response.json();
       if(data.mode === 'manual' && Array.isArray(data.events)){
         const todayISO=`${getPart('year')}-${String(getPart('month')).padStart(2,'0')}-${String(getPart('day')).padStart(2,'0')}`;
-        const upcoming=data.events.filter(event=>/^\d{4}-\d{2}-\d{2}$/.test(event.date) && event.date>=todayISO).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).slice(0,3);
+        const upcoming=data.events.filter(event=>/^\d{4}-\d{2}-\d{2}$/.test(event.date) && event.date>=todayISO).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
+        const daysOff=new Set(upcoming.filter(event=>event.status==='not-serving').map(event=>event.date));
+        const selected=[]; let serving=0,closed=0;
+        for(const event of upcoming){ if(event.status==='not-serving'){if(closed++<3)selected.push(event)}else if(!daysOff.has(event.date)&&serving++<3)selected.push(event) };
         datesTrack.replaceChildren();
         if(upcoming.length){
           const makeCard=event=>{
-            const link=document.createElement('a');link.className='date-card';link.href='#popup';
+            const link=document.createElement('a');link.className='date-card'+(event.status==='not-serving'?' date-cancelled':'');link.href='#popup';
             const day=document.createElement('strong');day.textContent=Number(event.date.slice(8));
             const details=document.createElement('span');
             const label=document.createElement('small');
             const date=new Date(event.date+'T12:00:00Z');
             label.textContent=new Intl.DateTimeFormat('en-GB',{weekday:'short',month:'short',timeZone:'UTC'}).format(date);
-            details.append(label,document.createTextNode(event.venue),document.createElement('br'),document.createTextNode('from '+event.time));
+            details.append(label,document.createTextNode(event.status==='not-serving'?'Not serving':event.venue));
+            if(event.status!=='not-serving')details.append(document.createElement('br'),document.createTextNode('from '+event.time));
             link.append(day,details);return link;
           };
-          upcoming.forEach(event=>datesTrack.append(makeCard(event)));
+          selected.forEach(event=>datesTrack.append(makeCard(event)));
           datesTrack.classList.add('dates-manual');
         } else {
           datesTrack.textContent='No pop-ups currently announced. Check back soon.';
