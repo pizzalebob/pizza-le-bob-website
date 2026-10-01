@@ -1,0 +1,37 @@
+Pizza le Bob website updates — prepared, not deployed
+
+Included: map with explicit opt-in and remove control, exact new When wording,
+direct submissions for both enquiry forms, initial-enquiry data minimisation,
+privacy notice and protected Pages email endpoint.
+
+Upload index.html and functions/api/enquiry.js to the matching paths in
+pizzalebob/pizza-le-bob-website. Existing files not included remain unchanged.
+Git integration then deploys the Pages Function.
+
+Direct email setup:
+1. Create a Resend sending account; verify a sender on your own domain using
+   its provided DNS records. Keep existing Gmail/MX records intact.
+2. In Cloudflare Pages production settings add RESEND_API_KEY as a secret and
+   ENQUIRY_FROM as the verified sender address. Never put the key in HTML.
+3. Before enabling delivery, review/accept processor agreements for hosting,
+   sending and mailbox providers and document international-transfer safeguards.
+   Resend: https://resend.com/legal/dpa (primary processing is in the US).
+   Confirm Google mailbox arrangements are suitable for business personal data;
+   this preparation has not verified the terms for your personal Gmail account.
+4. Set and document your actual retention policy, deletion process, access
+   controls and response process for data-rights requests. Edit the privacy
+   notice to reflect actual arrangements, including defined retention periods.
+   Protect business accounts with MFA and keep enquiries out of public logs.
+5. Add a Cloudflare rate limit for POST /api/enquiry before enabling it.
+   Server origin checks and the honeypot do not replace rate limiting.
+6. Set ENQUIRY_ENABLED=true only after the above is complete, redeploy, and test
+   both forms with non-sensitive sample details. Check actual receipt in Gmail,
+   error handling, mobile layout and a clean-browser cookie audit.
+
+The new endpoint intentionally returns an error until configured and enabled.
+It does not falsely show successful sending when the email provider fails.
+The email-service activation advice for the earlier FormSubmit draft no longer
+applies: FormSubmit has been removed from this revision.
+
+Privacy safeguards implemented in code do not certify the business or website
+as fully GDPR compliant. No changes have been published from this session.

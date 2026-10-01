@@ -598,20 +598,27 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
         <div>
           <h3>Where</h3>
           <p>The Gardeners Arms car park</p>
+          <div id="mapChoice" style="margin-top:18px">
+            <p>Enable the map to load Google Maps. Google will receive your IP address and may use cookies. You can use Get directions instead.</p>
+            <button type="button" class="btn" id="enableMap" style="margin-top:12px">Enable Google map</button>
+          </div>
+          <div id="mapContainer"></div>
+          <button type="button" id="disableMap" hidden style="margin-top:10px">Remove Google map</button>
+          <p style="margin-top:12px"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=53.747295%2C-1.580849" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">Get directions</a></p>
         </div>
       </div>
       <div class="popup-detail">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
         <div>
           <h3>When</h3>
-          <p>Fridays and Saturdays from 4pm</p>
+          <p>Usually Fridays &amp; Saturdays from 4pm - Check the banner at the top for any changes</p>
         </div>
       </div>
       <div class="popup-detail">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         <div>
           <h3>Ordering</h3>
-          <p>Pre-ordering recommended to avoid disappointment.<br>WhatsApp or call <a href="tel:+447989836477">07989 836477</a>. Pickup only. Cash, card &amp; contactless welcome.</p>
+          <p>Pre-ordering recommended to avoid disappointment.<br>WhatsApp or call <a href="tel:+447989836477">07989 836477</a>. Pickup only. Cash, card &amp; contactless welcome.<br>Pay on collection</p>
         </div>
       </div>
     </div>
@@ -916,7 +923,6 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
         <div class="field"><label for="corpDate">Date of event</label><input type="date" id="corpDate" required></div>
         <div class="field"><label for="corpTime">Time of event</label><input type="time" id="corpTime" required></div>
       </div>
-      <div class="field full"><label for="corpAllergy">Allergy information &amp; dietary requirements</label><textarea id="corpAllergy" placeholder="Vegan, gluten-free, nut allergies etc."></textarea></div>
       <div class="form-row">
         <div class="field">
           <label for="corpAccess">Accessible to car &amp; trailer?</label>
@@ -938,9 +944,10 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
           </select>
         </div>
       </div>
-      <div class="field full"><label for="corpOther">Other information</label><textarea id="corpOther" placeholder="Anything else that would help us plan"></textarea></div>
+      <div class="field full"><label for="corpOther">Other information</label><textarea id="corpOther" placeholder="Event details only — please do not include names or medical details of guests"></textarea></div>
+      <p class="form-note">Robert Westerdale, trading as Pizza le Bob, uses your details to respond to this enquiry and arrange your booking. Please do not include guests’ names or medical information. <a href="#privacy">Privacy notice</a>.</p>
       <button type="submit" class="btn-submit">Send Corporate Enquiry</button>
-      <div class="form-success" id="corpFormSuccess">Grazie! Your email is ready to send — please hit send in your email app to complete your enquiry.</div>
+      <div class="form-success" id="corpFormSuccess">Thank you! Your enquiry has been submitted. We’ll be in touch soon.</div>
       <p class="form-note" style="color:rgba(248,244,234,0.6);">Or skip the form — WhatsApp / call <a href="tel:+447989836477" style="color:var(--cream); font-weight:700;">07989 836477</a> or email <a href="mailto:pizzalebob@gmail.com" style="color:var(--cream); font-weight:700;">pizzalebob@gmail.com</a></p>
     </form>
   </div>
@@ -1000,9 +1007,10 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
         <div class="field"><label for="guests">Guest count</label><input type="number" id="guests" min="1" placeholder="e.g. 80"></div>
       </div>
       <div class="field full"><label for="location">Venue / location</label><input type="text" id="location" placeholder="Town or venue name"></div>
-      <div class="field full"><label for="message">Tell us about your event</label><textarea id="message" placeholder="Wedding, birthday, corporate, pub catering — any details that help us plan"></textarea></div>
+      <div class="field full"><label for="message">Tell us about your event</label><textarea id="message" placeholder="Event details only — please do not include names or medical details of guests"></textarea></div>
+      <p class="form-note">Robert Westerdale, trading as Pizza le Bob, uses your details to respond to this enquiry and arrange your booking. Please do not include guests’ names or medical information. <a href="#privacy">Privacy notice</a>.</p>
       <button type="submit" class="btn-submit">Send Booking Enquiry</button>
-      <div class="form-success" id="formSuccess">Your email is ready. Please press Send in your email app to complete the enquiry.</div>
+      <div class="form-success" id="formSuccess">Thank you! Your enquiry has been submitted. We’ll be in touch soon.</div>
       <p class="form-note">Or skip the form — WhatsApp / call <a href="tel:+447989836477" style="color:var(--navy); font-weight:700;">07989 836477</a> or email <a href="mailto:pizzalebob@gmail.com" style="color:var(--navy); font-weight:700;">pizzalebob@gmail.com</a></p>
     </form>
   </div>
@@ -1314,6 +1322,21 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   </div>
 </section>
 
+
+<section id="privacy" style="background:var(--cream);color:var(--navy);padding:48px 24px">
+  <div class="wrap" style="max-width:900px">
+    <h2>Privacy notice</h2>
+    <p>Robert Westerdale, trading as Pizza le Bob, is responsible for personal information collected through this website. Contact pizzalebob@gmail.com or 07989 836477 about your information.</p>
+    <p>We collect the contact and event details you supply to answer enquiries, provide quotes and arrange catering. For individuals booking for themselves, this is to take steps at your request before entering a contract, and to perform that contract. For business contacts, our legitimate interest is responding to business enquiries and managing catering bookings. We do not add enquiry contacts to marketing lists.</p>
+    <p>Please do not submit guests’ names, allergies, medical details or other sensitive information through these forms. Discuss essential catering requirements separately when arranging your booking.</p>
+    <p>Cloudflare hosts this website. The planned direct email service uses Resend to deliver enquiries to our Google Gmail inbox. These providers may process information outside the UK. Appropriate processor agreements and international-transfer safeguards must be in place before the new forms are enabled.</p>
+    <p>Enquiry information is needed to respond; without sufficient contact details we may not be able to help. We retain correspondence only for as long as needed to handle your enquiry, booking and any related legal or accounting obligations. Unneeded enquiry correspondence should be deleted. There is no automated decision-making or profiling.</p>
+    <p>You can ask for access to, correction of or deletion of your information, and may have rights to restriction, portability or to object, depending on the circumstances and lawful basis. Contact us using the details above. You can complain to the Information Commissioner’s Office at <a href="https://ico.org.uk/make-a-complaint/">ico.org.uk/make-a-complaint</a>.</p>
+    <h3>Cookies and external services</h3>
+    <p>The public page contains no advertising trackers or cookie-setting code of its own. Cloudflare may use necessary security cookies. Google Fonts requests disclose connection information to Google. The embedded map contacts Google only after you select Enable Google map; Google may then use cookies under its own <a href="https://policies.google.com/privacy">privacy policy</a>. Remove Google map stops the embed; it cannot delete cookies already set by Google. Get directions opens Google Maps separately.</p>
+  </div>
+</section>
+
 <footer>
   <div class="footer-grid wrap">
     <div>
@@ -1440,50 +1463,66 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   }
   loadPublishedContent();
 
-  const form = document.getElementById('bookingForm');
-  const success = document.getElementById('formSuccess');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const val = (id) => document.getElementById(id).value.trim();
-    const subject = `Event booking enquiry — ${val('name')}`;
-    const body = [
-      `Name: ${val('name')}`,
-      `Email: ${val('email')}`,
-      `Event date: ${val('date')}`,
-      `Guests: ${val('guests') || 'Not given'}`,
-      `Venue/location: ${val('location') || 'Not given'}`,
-      `Event details: ${val('message') || 'Not given'}`
-    ].join('\n');
-    window.location.href = `mailto:pizzalebob@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    success.classList.add('show');
-    success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const mapChoice = document.getElementById('mapChoice');
+  const mapContainer = document.getElementById('mapContainer');
+  const disableMap = document.getElementById('disableMap');
+  document.getElementById('enableMap').addEventListener('click', () => {
+    const map = document.createElement('iframe');
+    map.title = 'Pizza le Bob location at The Gardeners Arms car park';
+    map.src = 'https://www.google.com/maps?q=53.747295,-1.580849&z=17&output=embed';
+    map.width = '100%'; map.height = '220'; map.style.cssText = 'border:0;margin-top:18px;border-radius:8px';
+    map.referrerPolicy = 'no-referrer'; map.allowFullscreen = true;
+    mapContainer.replaceChildren(map); mapChoice.hidden = true; disableMap.hidden = false;
+  });
+  disableMap.addEventListener('click', () => {
+    mapContainer.replaceChildren(); mapChoice.hidden = false; disableMap.hidden = true;
   });
 
-  // Corporate enquiry form — builds a mailto so the enquiry is actually emailed
-  const corpForm = document.getElementById('corporateForm');
-  const corpSuccess = document.getElementById('corpFormSuccess');
-  corpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const val = (id) => document.getElementById(id).value.trim();
-    const subject = `Corporate booking enquiry — ${val('corpCompany')}`;
-    const body = [
-      `Company name: ${val('corpCompany')}`,
-      `Contact name: ${val('corpContact')}`,
-      `Contact number: ${val('corpPhone')}`,
-      `Address of venue: ${val('corpAddress')}`,
-      `Date of event: ${val('corpDate')}`,
-      `Time of event: ${val('corpTime')}`,
-      `Number of people: ${val('corpGuests')}`,
-      `Allergy information & dietary requirements: ${val('corpAllergy') || 'None given'}`,
-      `Accessible to car & trailer: ${val('corpAccess')}`,
-      `Package selected: ${val('corpPackage')}`,
-      `Other information: ${val('corpOther') || 'None given'}`
-    ].join('\n');
-    const mailtoLink = `mailto:pizzalebob@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
-    corpSuccess.classList.add('show');
-    corpSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
+  // Both enquiry forms submit directly and keep customers on this page.
+  for (const [formId, statusId, title] of [
+    ['bookingForm', 'formSuccess', 'Event booking enquiry'],
+    ['corporateForm', 'corpFormSuccess', 'Corporate booking enquiry']
+  ]) {
+    const enquiryForm = document.getElementById(formId);
+    const status = document.getElementById(statusId);
+    const trap = document.createElement('input');
+    trap.name = '_honey'; trap.type = 'text'; trap.tabIndex = -1;
+    trap.autocomplete = 'off'; trap.style.display = 'none';
+    trap.setAttribute('aria-hidden', 'true'); enquiryForm.append(trap);
+    status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
+    enquiryForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!enquiryForm.reportValidity() || trap.value) return;
+      const button = enquiryForm.querySelector('[type="submit"]');
+      const originalText = button.textContent;
+      const payload = {type: formId, fields: {}, honey: trap.value};
+      for (const field of enquiryForm.querySelectorAll('input, select, textarea')) {
+        if (field === trap || field.type === 'submit') continue;
+        const label = field.id && enquiryForm.querySelector(`label[for="${field.id}"]`);
+        payload.fields[field.id] = field.value.trim();
+        if (field.type === 'email' && field.value.trim()) payload.replyTo = field.value.trim();
+      }
+      button.disabled = true; button.textContent = 'Sending…';
+      status.classList.remove('show');
+      try {
+        const response = await fetch('/api/enquiry', {
+          method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify(payload), signal: AbortSignal.timeout(20000)
+        });
+        const result = await response.json();
+        if (!response.ok || (result.success !== true && result.success !== 'true')) throw new Error('Submission failed');
+        status.textContent = 'Thank you! Your enquiry has been submitted. We’ll be in touch soon.';
+        enquiryForm.reset();
+      } catch {
+        status.textContent = 'Your enquiry could not be sent. Please try again, or call or WhatsApp 07989 836477.';
+      } finally {
+        button.disabled = false; button.textContent = originalText;
+        status.classList.add('show');
+        status.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      }
+    });
+  }
 
   // Change the image in the menu's adjacent preview pane.
   const preview = document.getElementById('pizzaPreview');
