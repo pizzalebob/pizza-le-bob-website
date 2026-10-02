@@ -1451,7 +1451,11 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
           datesTrack.classList.add('dates-manual');
         }
       }
-      const specialItem=[...document.querySelectorAll('.menu-item[data-pizza]')].find(el=>el.dataset.pizza==='Le Bob Special');
+      if(Array.isArray(data.menu)){
+        for(const item of data.menu){if(item.special && data.special?.name){item.name=data.special.name;item.description=data.special.description||'This week’s special';if(data.special.price)item.price=data.special.price;}}
+        window.renderPublishedMenu?.(data.menu);
+      }
+      const specialItem=[...document.querySelectorAll('.menu-item[data-pizza]')].find(el=>el.dataset.special==='true'||el.dataset.pizza==='Le Bob Special');
       if(specialItem && data.special?.name){
         specialItem.dataset.pizza=data.special.name;
         specialItem.setAttribute('aria-label','View '+data.special.name);
@@ -1529,7 +1533,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   const previewImg = document.getElementById('pizzaPreviewImg');
   const previewEmpty = document.getElementById('pizzaPreviewEmpty');
   const previewName = document.getElementById('pizzaPreviewName');
-  const pizzaItems = [...document.querySelectorAll('.menu-item[data-pizza]')];
+  let pizzaItems = [...document.querySelectorAll('.menu-item[data-pizza]')];
   function selectPizza(item, animate = true){
     const name = item.dataset.pizza;
     const photo = item.dataset.photo;
@@ -1556,13 +1560,29 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
         preview.scrollIntoView({behavior:'smooth',block:'center'});
     }
   }
-  pizzaItems.forEach(item => {
-    item.addEventListener('click', () => selectPizza(item));
-    item.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectPizza(item); }
+  function bindMenu(){
+    pizzaItems = [...document.querySelectorAll('.menu-item[data-pizza]')];
+    pizzaItems.forEach(item => {
+      item.addEventListener('click', () => selectPizza(item));
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectPizza(item); }
+      });
     });
-  });
-  if (pizzaItems.length) selectPizza(pizzaItems[0],false);
+    if(pizzaItems.length) selectPizza(pizzaItems[0],false);
+    else {previewImg.removeAttribute('src');previewImg.hidden=true;previewEmpty.hidden=false;previewName.textContent='Menu coming soon';}
+  }
+  window.renderPublishedMenu = menu => {
+    const list=document.querySelector('#menu .menu-list');
+    list.replaceChildren(...menu.filter(item=>!item.hidden).map(item=>{
+      const row=document.createElement('div');row.className='menu-item';row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label','View '+item.name);
+      row.dataset.pizza=item.name;row.dataset.photo=item.photo||'';row.dataset.special=String(item.special===true);
+      const details=document.createElement('div');details.className='menu-item-body';
+      for(const [className,text] of [['menu-item-name',item.name],['menu-item-desc',item.description]]){const span=document.createElement('span');span.className=className;span.textContent=text;details.append(span);}
+      const leader=document.createElement('div');leader.className='menu-item-leader';const price=document.createElement('span');price.className='menu-item-price';price.textContent=item.price;
+      row.append(details,leader,price);return row;
+    }));bindMenu();
+  };
+  bindMenu();
 </script>
 
 <script>

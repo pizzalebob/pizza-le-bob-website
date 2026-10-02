@@ -1,0 +1,16 @@
+Pizza le Bob — Menu & Photos editor update
+
+Install in the existing pizzalebob/pizza-le-bob-website GitHub repository.
+1. Download and extract this ZIP.
+2. In the repository, use Add file > Upload files.
+3. Drag index.html and the admin, functions and assets folders from the extracted ZIP into the upload area. Keep their folder paths. Upload at the repository root, not inside another folder.
+4. Commit the upload. Cloudflare will deploy the update automatically.
+5. After deployment succeeds, refresh your editor and choose Menu & Photos.
+
+Existing Cloudflare CONTENT storage and Access settings are reused. No new keys or bindings are required. Existing enquiries and pop-up dates continue to use their current setup.
+
+Edit names, descriptions and prices. Add or remove items, hide items, and move them up or down. Upload JPG, PNG or WebP photos (up to 20 MB); the editor resizes them to a maximum of 1200 pixels and compresses them before saving. Export HEIC photos as JPG first. Up to 40 menu items are supported.
+
+Weekly special details remain in the Pop-ups & special tab. Its photo can be changed in Menu & Photos. Save to website publishes both tabs together. Photos are public once saved; use pictures you have permission to publish. Cloudflare may take a short time to show saved changes in every location.
+
+Verification: inline JavaScript syntax, authenticated content saves, rejection of unauthenticated writes and invalid photo sources, preservation of the menu when older clients save dates, editor tab/edit/add/hide/save interactions, public rendering, pizza selection and empty menu behaviour. Browser visual testing and a live authenticated save were not available in this session.
