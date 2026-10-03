@@ -9,6 +9,19 @@ const menuChoice = `
 </div>
 `;
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+}
+function reviewCards(reviews) {
+  return reviews.map(review => {
+    const date = /^\d{4}-(0[1-9]|1[0-2])$/.test(review.date || '') ?
+      new Intl.DateTimeFormat('en-GB', {month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(review.date+'-01T12:00:00Z')) : '';
+    const rating = Number.isInteger(review.rating) && review.rating>=1 && review.rating<=5 ? review.rating : 5;
+    const stars = '<svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6L1.3 7.2l6.1-.6z"/></svg>'.repeat(rating);
+    return '<div class="review-card" data-added-review><div class="review-stars" role="img" aria-label="'+rating+' out of 5 stars">'+stars+'</div><p style="white-space:pre-line">“'+escapeHtml(review.text)+'”</p><div class="review-meta"><span class="review-name">'+escapeHtml(review.name)+'</span><span class="review-date">'+escapeHtml(date)+'</span></div></div>';
+  }).join('');
+}
+
 export async function onRequest(context) {
   const response = await context.next();
   const path = new URL(context.request.url).pathname;
@@ -17,7 +30,11 @@ export async function onRequest(context) {
       !response.headers.get("content-type")?.includes("text/html")) {
     return response;
   }
+  let reviews=[];
+  try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
   const updated = new HTMLRewriter()
+    .on("#reviews .reviews-masonry", { element(element) { if(reviews.length) element.prepend(reviewCards(reviews), {html:true}); } })
+    .on("#reviews .reviews-intro p", { element(element) { if(reviews.length) element.setInnerContent("Customer reviews — from birthday parties to weddings to community events."); } })
     .on(".corporate-copy > p:first-child", {
       element(element) { element.setInnerContent("Whether you're treating your staff or sharing an occasion with clients, proper Italian pizza never fails to impress. Restaurant quality pizzas cooked onsite with authentic Italian ingredients."); }
     })
@@ -29,5 +46,6 @@ export async function onRequest(context) {
     .transform(response);
   updated.headers.delete("content-length");
   updated.headers.delete("etag");
+  updated.headers.set("Cache-Control","no-store");
   return updated;
 }

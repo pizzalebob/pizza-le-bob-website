@@ -23,7 +23,19 @@ export async function onRequestPut({request,env}){
     }
     if(menu.filter(item=>item.special).length>1)return new Response('Only one weekly special is allowed',{status:400});
   }
-  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(menu!==undefined?{menu}:{})}));
+  let reviews=previous?.reviews;
+  if(data.reviews!==undefined){
+    if(!Array.isArray(data.reviews)||data.reviews.length>100)return new Response('Maximum 100 reviews',{status:400});
+    reviews=[];
+    for(const item of data.reviews){
+      if(!item||typeof item.name!=='string'||!item.name.trim()||item.name.length>100||
+         typeof item.text!=='string'||!item.text.trim()||item.text.length>3000||
+         typeof item.date!=='string'||!(item.date===''||/^\d{4}-(0[1-9]|1[0-2])$/.test(item.date))||
+         !Number.isInteger(item.rating)||item.rating<1||item.rating>5)return new Response('Invalid review',{status:400});
+      reviews.push({name:item.name.trim(),text:item.text.trim(),date:item.date,rating:item.rating});
+    }
+  }
+  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(menu!==undefined?{menu}:{}),...(reviews!==undefined?{reviews}:{})}));
   return Response.json({ok:true});
 }
 
