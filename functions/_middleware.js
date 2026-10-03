@@ -18,6 +18,9 @@ export async function onRequest(context) {
     return response;
   }
   const updated = new HTMLRewriter()
+    .on(".corporate-copy > p:first-child", {
+      element(element) { element.setInnerContent("Whether you're treating your staff or sharing an occasion with clients, proper Italian pizza never fails to impress. Restaurant quality pizzas cooked onsite with authentic Italian ingredients."); }
+    })
     .on(".corporate-copy .corporate-menu-choice", { element(element) { element.remove(); } })
     .on('.corporate-copy a[href="#corporate-form"]', {
       element(element) { element.before(menuChoice, { html: true }); }
