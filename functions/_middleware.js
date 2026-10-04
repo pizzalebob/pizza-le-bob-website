@@ -1,3 +1,4 @@
+import {PHOTO_SLOTS} from '../assets/page-photo-config.js';
 // Place the corporate package menus beside the event information.
 const menuChoice = `
 <div class="corporate-menu-choice" aria-label="Corporate menu packages" style="margin:26px 0 28px">
@@ -30,9 +31,9 @@ export async function onRequest(context) {
       !response.headers.get("content-type")?.includes("text/html")) {
     return response;
   }
-  let reviews=[];
-  try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
-  const updated = new HTMLRewriter()
+  let reviews=[],pagePhotos={};
+  try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; if(content?.pagePhotos) pagePhotos=content.pagePhotos; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
+  const rewriter = new HTMLRewriter()
     .on('body', { element(element) { element.append('<script src="/assets/visitor-tracking.js" defer></script>', {html:true}); } })
     .on('#privacy .wrap', { element(element) { element.append('<p>Cloudflare hosts this website and provides its existing privacy-focused Web Analytics. If you allow visitor analytics, we also store a random browser identifier on your device and send anonymous page-view events to our own Cloudflare storage. We do not record your name, email, IP address or browsing on other websites in these events. The identifier lets us count a returning browser once across weeks and pages. Declining stops this optional tracking. You can change your choice below; withdrawing stops future events and removes the identifier from this browser. Anonymous historical statistics remain available to the website owner. Browser privacy signals are respected. Google Fonts contacts Google. The embedded Google map loads only after you choose Enable Google map; Get directions opens Google Maps separately.</p>', {html:true}); } })
     .on("#reviews .reviews-masonry", { element(element) { if(reviews.length) element.prepend(reviewCards(reviews), {html:true}); } })
@@ -45,7 +46,22 @@ export async function onRequest(context) {
       element(element) { element.before(menuChoice, { html: true }); }
     })
     .on("#corporate-form .corporate-menu-links", { element(element) { element.remove(); } })
-    .transform(response);
+    ;
+  const selectors=[...new Set(Object.values(PHOTO_SLOTS).map(slot=>slot.selector))];
+  for(const selector of selectors){
+    let index=0;
+    rewriter.on(selector,{element(element){
+      const currentIndex=index++;
+      const entry=Object.entries(PHOTO_SLOTS).find(([,slot])=>slot.selector===selector&&slot.index===currentIndex);
+      if(!entry)return;
+      const item=pagePhotos[entry[0]];
+      if(!item)return;
+      if(item.photo)element.setAttribute('src',item.photo);
+      if(typeof item.alt==='string')element.setAttribute('alt',item.alt);
+    }});
+  }
+  rewriter.on('#weddings .wedding-inline-photo figcaption',{element(element){const caption=pagePhotos['wedding-venue']?.caption;if(typeof caption==='string')element.setInnerContent(caption);}});
+  const updated=rewriter.transform(response);
   updated.headers.delete("content-length");
   updated.headers.delete("etag");
   updated.headers.set("Cache-Control","no-store");

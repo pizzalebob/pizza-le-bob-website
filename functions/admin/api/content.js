@@ -1,3 +1,4 @@
+import {PHOTO_SLOTS} from '../../../assets/page-photo-config.js';
 const key='public-content';
 export async function onRequestPut({request,env}){
   if(!await verifyAccess(request,env)) return new Response('Sign-in required',{status:401});
@@ -35,7 +36,18 @@ export async function onRequestPut({request,env}){
       reviews.push({name:item.name.trim(),text:item.text.trim(),date:item.date,rating:item.rating});
     }
   }
-  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(menu!==undefined?{menu}:{}),...(reviews!==undefined?{reviews}:{})}));
+  let pagePhotos=previous?.pagePhotos;
+  if(data.pagePhotos!==undefined){
+    if(!data.pagePhotos||typeof data.pagePhotos!=='object'||Array.isArray(data.pagePhotos)||Object.keys(data.pagePhotos).length>Object.keys(PHOTO_SLOTS).length)return new Response('Invalid page photos',{status:400});
+    pagePhotos={};
+    for(const [id,item]of Object.entries(data.pagePhotos)){
+      if(!Object.hasOwn(PHOTO_SLOTS,id)||!item||typeof item.photo!=='string'||item.photo.length>400000||!(item.photo===''||/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/.test(item.photo))||typeof item.alt!=='string'||item.alt.length>200)return new Response('Invalid page photo',{status:400});
+      const value={photo:item.photo,alt:item.alt};
+      if(PHOTO_SLOTS[id].caption!==undefined){if(typeof item.caption!=='string'||item.caption.length>200)return new Response('Invalid photo caption',{status:400});value.caption=item.caption;}
+      pagePhotos[id]=value;
+    }
+  }
+  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(pagePhotos!==undefined?{pagePhotos}:{}),...(menu!==undefined?{menu}:{}),...(reviews!==undefined?{reviews}:{})}));
   return Response.json({ok:true});
 }
 
