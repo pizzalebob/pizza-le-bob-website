@@ -43,7 +43,7 @@ function decodeBase64Url(value){
   const base64=value.replace(/-/g,'+').replace(/_/g,'/');
   return Uint8Array.from(atob(base64.padEnd(Math.ceil(base64.length/4)*4,'=')),c=>c.charCodeAt(0));
 }
-async function verifyAccess(request,env){
+export async function verifyAccess(request,env){
   const token=request.headers.get('Cf-Access-Jwt-Assertion');
   if(!token||!env.ACCESS_TEAM_DOMAIN||!env.ACCESS_AUD||!env.OWNER_EMAIL)return false;
   try{
