@@ -26,3 +26,7 @@ body#bob-home #upcomingDates .compact-flag{font-size:20px!important;line-height:
 @media(pointer:coarse){body#bob-home>header.top.bob-theme nav{row-gap:14px!important}}
 body#bob-home #upcomingDates .compact-details .compact-venue{display:inline!important}
 body#bob-home #upcomingDates .date-cancelled .compact-number span,body#bob-home #upcomingDates .date-cancelled .compact-details strong,body#bob-home #upcomingDates .date-cancelled .compact-details small,body#bob-home #upcomingDates .date-cancelled .compact-details span{color:#a72d37!important}
+
+/* Bring the Menu heading and menu closer to the navigation. */
+body#bob-home #menu{padding-top:40px!important}
+body#bob-home #menu .section-head{margin-bottom:30px!important}
