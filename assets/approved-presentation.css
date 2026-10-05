@@ -41,3 +41,7 @@ body#bob-home #corporate .section-head{margin-bottom:30px!important}
 
 /* Increase the two home-page introductory sentences by three points. */
 body#bob-home #home .intro>p{font-size:calc(17px + 3pt)!important}
+
+/* Tighten the Wedding heading spacing to match Menu and Corporate. */
+body#bob-home #weddings{padding-top:40px!important}
+body#bob-home #weddings .section-head{margin-bottom:30px!important}
