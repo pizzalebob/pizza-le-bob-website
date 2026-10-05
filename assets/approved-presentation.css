@@ -38,3 +38,6 @@ body#bob-home #popup .section-head p{font-size:calc(1.03rem + 2pt)!important}
 /* Match the tighter menu spacing on Corporate Events. */
 body#bob-home #corporate{padding-top:40px!important}
 body#bob-home #corporate .section-head{margin-bottom:30px!important}
+
+/* Increase the two home-page introductory sentences by three points. */
+body#bob-home #home .intro>p{font-size:calc(17px + 3pt)!important}
