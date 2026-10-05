@@ -34,3 +34,7 @@ body#bob-home #menu .section-head{margin-bottom:30px!important}
 /* Larger, wider pop-up introduction and ordering explanation. */
 body#bob-home #popup .section-head{max-width:840px!important}
 body#bob-home #popup .section-head p{font-size:calc(1.03rem + 2pt)!important}
+
+/* Match the tighter menu spacing on Corporate Events. */
+body#bob-home #corporate{padding-top:40px!important}
+body#bob-home #corporate .section-head{margin-bottom:30px!important}
