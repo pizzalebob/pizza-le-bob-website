@@ -31,8 +31,8 @@ export async function onRequest(context) {
       !response.headers.get("content-type")?.includes("text/html")) {
     return response;
   }
-  let reviews=[],pagePhotos={};
-  try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; if(content?.pagePhotos) pagePhotos=content.pagePhotos; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
+  let reviews=[],pagePhotos={},galleryPhotos=[];
+  try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; if(content?.pagePhotos) pagePhotos=content.pagePhotos; if(Array.isArray(content?.galleryPhotos)) galleryPhotos=content.galleryPhotos; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
   const rewriter = new HTMLRewriter()
     .on('head link[rel="icon"], head link[rel="shortcut icon"], head link[rel="apple-touch-icon"], head link[rel="mask-icon"]', { element(element) { element.remove(); } })
     .on('head', { element(element) { element.append('<link rel="icon" type="image/png" sizes="256x256" href="/assets/icons/pizza-le-bob-256.png?v=plb-logo-1"><link rel="shortcut icon" href="/favicon.ico?v=plb-logo-1"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v=plb-logo-1"><style>#weddings .wedding-layout{align-items:start}</style><link rel="stylesheet" href="/assets/approved-presentation.css">', {html:true}); } })
@@ -66,6 +66,13 @@ export async function onRequest(context) {
     }});
   }
   rewriter.on('#weddings .wedding-inline-photo figcaption',{element(element){const caption=pagePhotos['wedding-venue']?.caption;if(typeof caption==='string')element.setInnerContent(caption);}});
+  rewriter.on('#weddings .wedding-photo-stack',{element(element){
+    const item=pagePhotos['wedding-extra'];
+    if(item?.photo)element.append('<div class="wedding-extra-photo" style="margin-top:20px"><img src="'+escapeHtml(item.photo)+'" alt="'+escapeHtml(item.alt||'')+'" style="display:block;width:100%;height:auto;border-radius:12px"></div>',{html:true});
+  }});
+  rewriter.on('#gallery .gallery-grid',{element(element){
+    if(galleryPhotos.length)element.append(galleryPhotos.map(item=>'<div class="gallery-item" data-added-gallery><img src="'+escapeHtml(item.photo)+'" alt="'+escapeHtml(item.alt||'')+'" loading="lazy"></div>').join(''),{html:true});
+  }});
   const updated=rewriter.transform(response);
   updated.headers.delete("content-length");
   updated.headers.delete("etag");

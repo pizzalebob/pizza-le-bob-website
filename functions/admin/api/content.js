@@ -2,7 +2,7 @@ import {PHOTO_SLOTS} from '../../../assets/page-photo-config.js';
 const key='public-content';
 export async function onRequestPut({request,env}){
   if(!await verifyAccess(request,env)) return new Response('Sign-in required',{status:401});
-  let data;try{const raw=await request.text();if(raw.length>18000000)return new Response('Content too large',{status:413});data=JSON.parse(raw)}catch{return new Response('Invalid JSON',{status:400})}
+  let data;try{const raw=await request.text();if(raw.length>24000000)return new Response('Content too large',{status:413});data=JSON.parse(raw)}catch{return new Response('Invalid JSON',{status:400})}
   if(!data||!Array.isArray(data.events)||data.events.length>40||(!data.special||typeof data.special!=='object'))return new Response('Invalid content',{status:400});
   const events=[];
   for(const item of data.events){
@@ -47,7 +47,16 @@ export async function onRequestPut({request,env}){
       pagePhotos[id]=value;
     }
   }
-  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(pagePhotos!==undefined?{pagePhotos}:{}),...(menu!==undefined?{menu}:{}),...(reviews!==undefined?{reviews}:{})}));
+  let galleryPhotos=previous?.galleryPhotos;
+  if(data.galleryPhotos!==undefined){
+    if(!Array.isArray(data.galleryPhotos)||data.galleryPhotos.length>20)return new Response('Maximum 20 added Gallery photos',{status:400});
+    galleryPhotos=[];
+    for(const item of data.galleryPhotos){
+      if(!item||typeof item.photo!=='string'||item.photo.length>400000||!/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/.test(item.photo)||typeof item.alt!=='string'||item.alt.length>200)return new Response('Invalid Gallery photo',{status:400});
+      galleryPhotos.push({photo:item.photo,alt:item.alt});
+    }
+  }
+  await env.CONTENT.put(key,JSON.stringify({mode:'manual',events,special,...(galleryPhotos!==undefined?{galleryPhotos}:{}),...(pagePhotos!==undefined?{pagePhotos}:{}),...(menu!==undefined?{menu}:{}),...(reviews!==undefined?{reviews}:{})}));
   return Response.json({ok:true});
 }
 
