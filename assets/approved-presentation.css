@@ -76,3 +76,33 @@ body#bob-home #weddings .section-head{margin-bottom:30px!important}
     grid-column:1 / -1!important;
   }
 }
+
+/* Match the main content to the menu page's wider navigation frame. */
+body#bob-home{max-width:1240px!important}
+body#bob-home>section:not(#menu):not(#home){padding-left:30px!important;padding-right:30px!important}
+body#bob-home>section:not(#menu)>.wrap{
+  width:100%;max-width:none!important;padding-left:0!important;padding-right:0!important;
+}
+body#bob-home>section:not(#menu)>.section-head{max-width:none!important}
+body#bob-home #weddings .wedding-layout,
+body#bob-home #corporate .corporate-layout{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body#bob-home #weddings .wedding-layout>*,
+body#bob-home #corporate .corporate-layout>*{min-width:0}
+body#bob-home #weddings .wedding-copy p,
+body#bob-home #weddings .wedding-inline-photo,
+body#bob-home #corporate .corporate-copy p{max-width:none}
+body#bob-home #home .bob-hero{padding-left:30px!important;padding-right:30px!important}
+body#bob-home .home-dates{width:100%;max-width:none!important;padding-left:30px!important;padding-right:30px!important}
+body#bob-home:not(.menu-page)>footer{padding-left:30px;padding-right:30px}
+body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding-right:0}
+@media(max-width:900px){
+  body#bob-home #weddings .wedding-layout,
+  body#bob-home #corporate .corporate-layout{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:760px){
+  body#bob-home>section:not(#menu):not(#home){padding-left:22px!important;padding-right:22px!important}
+  body#bob-home #home .bob-hero,body#bob-home .home-dates{padding-left:22px!important;padding-right:22px!important}
+  body#bob-home:not(.menu-page)>footer{padding-left:22px;padding-right:22px}
+}
