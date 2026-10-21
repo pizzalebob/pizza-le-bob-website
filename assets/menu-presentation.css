@@ -1,0 +1,66 @@
+@font-face{font-family:'PLB Menu Neon';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/menu/fonts/allura.ttf') format('truetype')}
+@font-face{font-family:'PLB Menu Serif';font-style:italic;font-weight:700;font-display:swap;src:url('/assets/menu/fonts/cormorant-garamond-italic.ttf') format('truetype')}
+/* Approved menu design. Scope to Menu so other website pages retain their design. */
+.menu-neon-wordmark{display:none}
+html.menu-page{background:#0d2130}
+body#bob-home.menu-page{max-width:1240px!important;background:#112637!important;color:#fff4df}
+body#bob-home.menu-page>header.top.bob-theme{background:#112637!important;grid-template-columns:minmax(260px,.85fr) minmax(0,1.35fr)!important;padding:26px 30px!important;gap:32px!important}
+body#bob-home.menu-page>header.top .brand{min-width:0!important}
+body#bob-home.menu-page>header.top .brand>img,body#bob-home.menu-page>header.top .brand-title{display:none!important}
+body#bob-home.menu-page .menu-neon-wordmark{display:block!important;color:#ffdbd4!important;font:400 clamp(45px,5.3vw,69px)/1.2 'PLB Menu Neon',cursive!important;white-space:nowrap!important;text-shadow:0 0 2px #fff,0 0 5px #ff342b,0 0 12px #ff342b,0 0 25px #ff241e!important;max-width:none!important}
+body#bob-home.menu-page>header.top.bob-theme nav a{background:repeating-linear-gradient(2deg,transparent 0 8px,#120c0844 9px,transparent 11px 22px),linear-gradient(110deg,#34231a,#5b3b24 48%,#302017)!important;color:#fff4df!important;font:500 16px/1.15 Georgia,serif!important;text-shadow:none!important;border-color:#976739!important;box-shadow:0 2px 4px #0006!important;border-radius:7px!important}
+body#bob-home.menu-page>header.top.bob-theme nav a:hover,body#bob-home.menu-page>header.top.bob-theme nav a:focus-visible,body#bob-home.menu-page>header.top.bob-theme nav a[aria-current="page"]{border-color:#ff6551!important;box-shadow:0 0 7px #ff3c2f!important;color:#fff4df!important}
+body#bob-home #menu{background:#112637;color:#fff4df;padding:28px 30px 40px!important;font-family:Arial,sans-serif}
+body#bob-home #menu .section-head{max-width:none;margin:0 auto 35px!important;text-align:center}
+#menu .menu-heading h2{display:flex;align-items:center;justify-content:center;gap:22px;color:#fff4df;font:700 clamp(42px,6vw,74px)/1.15 Georgia,serif;text-transform:uppercase;letter-spacing:.025em;margin:0 0 12px}
+#menu .menu-heading h2:before,#menu .menu-heading h2:after{content:'';height:1px;flex:1;max-width:190px;background:#ae8a50}
+body#bob-home #menu .section-head>p{font:400 clamp(17px,2vw,23px)/1.5 Arial,sans-serif;color:#fff4df;margin:0 0 12px;max-width:none}
+#menu .menu-guide{font:400 15px/1.7 Arial,sans-serif;color:#e6dece;margin:0 auto;max-width:900px}
+#menu .menu-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr) minmax(0,1fr);gap:28px;align-items:start;max-width:none;padding:0}
+#menu .menu-column{display:flex;flex-direction:column;min-width:0}
+#menu .menu-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:baseline;width:100%;min-width:0;min-height:0;padding:22px 0 25px;margin:0;border:0;border-bottom:1px solid #ae8a507d;border-radius:0;box-shadow:none;background:transparent;color:#fff4df;text-align:left;cursor:pointer;font:inherit}
+#menu .menu-item:first-child{padding-top:12px}
+#menu .menu-item:last-child{border-bottom:0}
+#menu .menu-item:nth-child(even){background:transparent}
+#menu .menu-item:hover,#menu .menu-item.selected{background:transparent;box-shadow:none}
+#menu .menu-item:hover .menu-item-name,#menu .menu-item.selected .menu-item-name{color:#f4c58b}
+#menu .menu-item:focus-visible{outline:2px solid #ff7865;outline-offset:5px}
+#menu .menu-item-name{font:700 italic clamp(27px,2.5vw,33px)/1.12 'PLB Menu Serif',Georgia,serif;letter-spacing:0;color:#fff4df;overflow-wrap:anywhere}
+#menu .menu-item-name:after{content:none}
+#menu .menu-item-price{font:400 24px/1.2 Georgia,serif;color:#fff4df;white-space:nowrap;margin:0}
+#menu .menu-item-desc{grid-column:1/-1;display:block;font:400 15px/1.6 Arial,sans-serif;color:#eee8dd;margin:0;white-space:pre-line}
+#menu .menu-item-desc:empty{display:none}
+#menu .pizza-preview{grid-column:2;grid-row:1;align-self:center;width:100%;max-width:none;margin:8px 0;padding:12px;border:1px solid #a57647;border-radius:0;background:repeating-linear-gradient(3deg,transparent 0 3px,#22140c55 4px,transparent 5px 11px),linear-gradient(110deg,#322016,#88552c 22%,#352114 50%,#795133 78%,#352218);box-shadow:inset 0 0 0 3px #21160e,inset 0 0 0 5px #8d653d,0 6px 16px #0004}
+#menu .pizza-preview-frame{aspect-ratio:1/1.12;background:#182d3d;border:2px solid #b58c48;border-bottom:0}
+#menu .pizza-preview-frame img{width:100%;height:100%;object-fit:cover}
+#menu .pizza-preview-frame [hidden]{display:none!important}
+#menu .pizza-preview-empty{padding:24px;color:#f3e6cc;text-align:center;font:italic 26px Georgia,serif}
+#menu .pizza-preview-caption{padding:22px 12px;background:#112637;text-align:center;border:2px solid #b58c48;border-top:1px solid #b58c48}
+#menu .pizza-preview-caption .eyebrow{color:#edc77f;font:400 11px/1.4 Georgia,serif;letter-spacing:.15em}
+#menu .pizza-preview-caption h3{font:700 italic 36px/1.1 'PLB Menu Serif',Georgia,serif;color:#fff4df;margin:8px 0}
+#menu .pizza-preview-caption p{font:400 13px/1.5 Arial,sans-serif;color:#eee8dd;margin:0}
+#menu .menu-left{grid-column:1;grid-row:1}
+#menu .menu-right{grid-column:3;grid-row:1}
+#menu .weekly-special{grid-column:1/-1;padding:20px 26px!important;background:transparent;border:1px solid #ff6551;border-radius:8px;box-shadow:0 0 7px #ff3c2f55;text-align:center;min-height:0!important}
+#menu .weekly-special h3{color:#ffb1a0;font:500 25px/1.3 Georgia,serif;text-transform:uppercase;letter-spacing:.15em;margin:0 0 8px}
+#menu .weekly-special-content>p{color:#fff4df;font:400 16px/1.5 Arial,sans-serif}
+#menu .weekly-special .menu-item{max-width:800px;margin:auto;padding:8px 0 0;justify-items:start}
+#menu .weekly-special .menu-item-name{font-size:31px}
+#menu .weekly-special .menu-item-desc{text-align:left}
+#menu .menu-information{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:32px;border-top:1px solid #ae8a50;padding-top:22px}
+#menu .menu-footnote,#menu .allergy-note{font:400 14px/1.7 Arial,sans-serif;color:#eee8dd;background:transparent;border:0;margin:0;padding:0;font-style:normal}
+body#bob-home.menu-page>footer{background:#0d2130;color:#eee8dd;padding-top:35px;border-top:1px solid #ae8a50}
+body#bob-home.menu-page>footer .footer-grid{gap:36px}
+body#bob-home.menu-page .footer-brand>img{display:none}
+body#bob-home.menu-page .footer-brand .menu-neon-wordmark{font-size:47px!important}
+body#bob-home.menu-page>footer p,body#bob-home.menu-page>footer li,body#bob-home.menu-page>footer .footer-bottom{font-family:Arial,sans-serif;color:#eee8dd}
+body#bob-home.menu-page>footer h4{color:#edc77f}
+@media(max-width:1100px){body#bob-home.menu-page>header.top.bob-theme{grid-template-columns:290px minmax(0,1fr)!important;gap:20px!important}body#bob-home.menu-page>header.top.bob-theme nav a{font-size:14px!important}#menu .menu-layout{gap:22px}#menu .menu-item-name{font-size:28px}#menu .menu-item-price{font-size:22px}}
+@media(min-width:1000px){#menu .menu-right .menu-item:nth-last-child(-n+2) .menu-item-name{font-size:26px}}
+@media(max-width:999px){#menu .menu-layout{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px}#menu .pizza-preview{grid-column:1/-1;grid-row:1;max-width:320px;justify-self:center;margin:0}#menu .menu-left{grid-column:1;grid-row:2}#menu .menu-right{grid-column:2;grid-row:2}#menu .menu-item-name{font-size:31px}}
+@media(max-width:760px){body#bob-home.menu-page>header.top.bob-theme{display:block!important;padding:20px!important}body#bob-home.menu-page .menu-neon-wordmark{font-size:55px!important}body#bob-home.menu-page>header.top.bob-theme .menu-toggle{top:30px!important}body#bob-home.menu-page>header.top.bob-theme nav a{font-size:18px!important}body#bob-home #menu{padding:24px 22px 32px!important}#menu .menu-heading h2{gap:12px}#menu .menu-heading h2:before,#menu .menu-heading h2:after{max-width:65px}#menu .menu-guide{font-size:14px}}
+@media(max-width:639px){#menu .menu-layout{grid-template-columns:minmax(0,1fr);gap:0}#menu .pizza-preview{grid-column:1;grid-row:1;max-width:300px;margin:0 0 25px}#menu .menu-left{grid-column:1;grid-row:2}#menu .menu-right{grid-column:1;grid-row:3;border-top:1px solid #ae8a507d}#menu .menu-right .menu-item:first-child{padding-top:22px}#menu .menu-information{grid-template-columns:1fr;gap:18px;margin-top:24px}#menu .weekly-special{margin-top:26px;padding:20px!important}#menu .weekly-special h3{font-size:21px}#menu .weekly-special .menu-item-name{font-size:29px}#menu .menu-item{padding:20px 0}#menu .menu-item-name{font-size:32px}#menu .menu-item-price{font-size:24px}#menu .menu-item-desc{font-size:15px}body#bob-home.menu-page>footer .footer-brand .menu-neon-wordmark{font-size:44px!important}}
+
+#menu .menu-footnote strong,#menu .allergy-note strong{color:#edc77f}
+
+@media(max-width:639px){#menu .pizza-preview-frame{aspect-ratio:16/10}#menu .pizza-preview-caption{padding:14px 10px}#menu .pizza-preview-caption h3{font-size:30px}}
