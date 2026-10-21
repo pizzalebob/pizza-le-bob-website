@@ -111,7 +111,9 @@
     return row;
   }
 
+  let publishedSpecial;
   function render(menu, special) {
+    if (special !== undefined) publishedSpecial = special;
     left.replaceChildren();
     right.replaceChildren();
     specialPanel.replaceChildren();
@@ -119,13 +121,17 @@
     const regular = visible.filter(item => !item.special);
     const split = Math.max(1, Math.floor(regular.length / 2));
     regular.forEach((item, index) => (index < split ? left : right).append(menuRow(item)));
-    const weekly = visible.find(item => item.special);
-    if (weekly) {
-      const current = special?.name?.trim() ? {
-        ...weekly, name: special.name,
-        description: special.description || 'This week’s special',
-        price: special.price || ''
-      } : weekly;
+    // This panel uses the editor's current special, independently of list visibility.
+    const weekly = menu.find(item => item.special);
+    const current = publishedSpecial === undefined
+      ? (weekly && !weekly.hidden ? weekly : null)
+      : (publishedSpecial?.name?.trim() ? {
+          ...(weekly || {}), special: true,
+          name: publishedSpecial.name,
+          description: publishedSpecial.description || 'This week’s special',
+          price: publishedSpecial.price || '', photo: weekly?.photo || ''
+        } : null);
+    if (current) {
       specialPanel.append(menuRow(current));
     } else {
       const note = document.createElement('p');
