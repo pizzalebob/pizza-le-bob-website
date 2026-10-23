@@ -31,12 +31,11 @@ body#bob-home #menu .section-head>p{font:400 clamp(17px,2vw,23px)/1.5 Arial,sans
 #menu .menu-item-desc{grid-column:1/-1;display:block;font:400 calc(15px + 1pt)/1.6 Arial,sans-serif;color:#eee8dd;margin:0;white-space:pre-line}
 #menu .menu-item-desc:empty{display:none}
 #menu .pizza-preview{grid-column:2;grid-row:1;align-self:center;width:100%;max-width:none;margin:8px 0;padding:12px;border:1px solid #a57647;border-radius:0;background:repeating-linear-gradient(3deg,transparent 0 3px,#22140c55 4px,transparent 5px 11px),linear-gradient(110deg,#322016,#88552c 22%,#352114 50%,#795133 78%,#352218);box-shadow:inset 0 0 0 3px #21160e,inset 0 0 0 5px #8d653d,0 6px 16px #0004}
-#menu .pizza-preview-frame{aspect-ratio:1/1.12;background:#182d3d;border:2px solid #b58c48;border-bottom:0}
-#menu .pizza-preview-frame img{width:100%;height:100%;object-fit:cover}
+#menu .pizza-preview-frame{aspect-ratio:1/1;background:#182d3d;border:2px solid #b58c48;border-bottom:0}
+#menu .pizza-preview-frame img{width:100%;height:100%;object-fit:contain}
 #menu .pizza-preview-frame [hidden]{display:none!important}
 #menu .pizza-preview-empty{padding:24px;color:#f3e6cc;text-align:center;font:italic 26px Georgia,serif}
-#menu .pizza-preview-caption{padding:22px 12px;background:#112637;text-align:center;border:2px solid #b58c48;border-top:1px solid #b58c48}
-#menu .pizza-preview-caption .eyebrow{color:#edc77f;font:400 11px/1.4 Georgia,serif;letter-spacing:.15em}
+#menu .pizza-preview-caption{padding:12px;background:#112637;text-align:center;border:2px solid #b58c48;border-top:1px solid #b58c48}
 #menu .pizza-preview-caption h3{font:700 italic 36px/1.1 'PLB Menu Serif',Georgia,serif;color:#fff4df;margin:8px 0}
 #menu .pizza-preview-caption p{font:400 13px/1.5 Arial,sans-serif;color:#eee8dd;margin:0}
 #menu .menu-left{grid-column:1;grid-row:1}
@@ -63,4 +62,4 @@ body#bob-home.menu-page>footer h4{color:#edc77f}
 
 #menu .menu-footnote strong,#menu .allergy-note strong{color:#edc77f}
 
-@media(max-width:639px){#menu .pizza-preview-frame{aspect-ratio:16/10}#menu .pizza-preview-caption{padding:14px 10px}#menu .pizza-preview-caption h3{font-size:30px}}
+@media(max-width:639px){#menu .pizza-preview-frame{aspect-ratio:1/1}#menu .pizza-preview-caption{padding:14px 10px}#menu .pizza-preview-caption h3{font-size:30px}}
