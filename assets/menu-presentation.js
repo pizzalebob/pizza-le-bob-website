@@ -27,7 +27,6 @@
           <div class="pizza-preview-empty" id="pizzaPreviewEmpty">Photo coming soon</div>
         </div>
         <div class="pizza-preview-caption">
-          <span class="eyebrow">Fresh from the oven</span>
           <h3 id="pizzaPreviewName"></h3>
           <p>Select a pizza to see its photo here.</p>
         </div>
