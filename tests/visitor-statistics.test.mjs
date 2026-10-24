@@ -5,7 +5,7 @@ import {onRequestPost} from '../functions/api/visit.js';
 import {onRequestGet} from '../functions/admin/api/statistics.js';
 const origin='https://www.pizzalebob.co.uk';
 const request = (data,extra={}) => new Request(origin+'/api/visit',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',...extra},body:JSON.stringify(data)});
-const event = () => ({page:'menu',visitor:crypto.randomUUID(),event:crypto.randomUUID(),consent:true});
+const event = () => ({page:'menu',event:crypto.randomUUID(),mode:'aggregate'});
 test('UK Monday weeks handle Sunday night, BST, winter and year boundary',()=>{
  assert.equal(weekStart(new Date('2026-10-04T22:59:59Z')),'2026-09-28');
  assert.equal(weekStart(new Date('2026-10-04T23:00:00Z')),'2026-10-05');
@@ -17,15 +17,15 @@ test('anonymous visitor hashes are stable and do not contain the browser ID',asy
 });
 test('collects independent immutable views without touching public content',async()=>{
  const writes=new Map(),env={CONTENT:{put:async(key,value,options)=>writes.set(key,options.metadata)}};
- const a=event(),b={...event(),visitor:a.visitor};
+ const a=event(),b=event();
  const results=await Promise.all([a,b].map(data=>onRequestPost({request:request(data),env})));
  assert.deepEqual(results.map(r=>r.status),[204,204]);assert.equal(writes.size,2);
- for(const [key,e]of writes){assert.ok(key.startsWith(PREFIX));assert.equal(e.p,'menu');assert.equal(e.u,await hashVisitor(a.visitor));assert.ok(!JSON.stringify(e).includes(a.visitor));}
+ for(const [key,e]of writes){assert.ok(key.startsWith(PREFIX));assert.equal(e.p,'menu');assert.equal(e.u,undefined);assert.match(e.t,/T00:00:00Z$/);}
  assert.equal((await onRequestPost({request:request(a),env})).status,204);assert.equal(writes.size,2);
 });
-test('rejects cross-origin, missing consent, forged pages and oversized data',async()=>{
+test('rejects cross-origin, invalid mode, forged pages and oversized data',async()=>{
  let writes=0;const env={CONTENT:{put:async()=>writes++}};
- for(const [data,extra,code]of [[event(),{Origin:'https://other.example'},403],[{...event(),consent:false},{},400],[{...event(),page:'admin'},{},400],[{...event(),visitor:'invalid'},{},400],[{...event(),extra:'x'.repeat(2000)},{},400]])assert.equal((await onRequestPost({request:request(data,extra),env})).status,code);
+ for(const [data,extra,code]of [[event(),{Origin:'https://other.example'},403],[{...event(),mode:'tracking'},{},400],[{...event(),page:'admin'},{},400],[{...event(),visitor:'invalid'},{},400],[{...event(),extra:'x'.repeat(2000)},{},400]])assert.equal((await onRequestPost({request:request(data,extra),env})).status,code);
  assert.equal(writes,0);
  assert.equal((await onRequestPost({request:request(event(),{'User-Agent':'ExampleCrawler bot'}),env})).status,204);assert.equal(writes,0);
 });
@@ -54,5 +54,5 @@ test('verified signed owner may paginate; wrong owner, audience, expiry and sign
 test('live test traffic is temporary and excluded from real statistics',async()=>{
  let write;const env={CONTENT:{put:async(...args)=>write=args}};
  assert.equal((await onRequestPost({request:request({...event(),test:true}),env})).status,204);
- assert.ok(write[0].startsWith('visitor-statistics-test:v1:'));assert.equal(write[2].expirationTtl,300);
+ assert.ok(write[0].startsWith('page-statistics-test:v2:'));assert.equal(write[2].expirationTtl,300);
 });

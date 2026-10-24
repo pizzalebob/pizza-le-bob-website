@@ -26,31 +26,9 @@ subscription is needed. Keep Access protection on `/admin/*` on every hostname.
 The existing Cloudflare Pages Web Analytics beacon is preserved. Its Visits
 metric is not treated as unique people, and its historical data is not imported.
 
-Optional first-party analytics starts only after the visitor chooses Allow
-analytics. The browser keeps a random UUID in localStorage; the collector stores
-its SHA-256 hash, the named section, UK Monday week and receipt timestamp.
-No IP address, user-agent, enquiry data, name or email is written into events.
-Declining, DNT and GPC prevent collection. Choices can be changed on Privacy.
-Counts represent consenting browsers, not identified people. Different devices,
-cleared storage or new consent can create another unique visitor. No historical
-figures are invented. Overall uniques are deduplicated across pages and weeks.
-
-Each view has an independent immutable KV key under `visitor-statistics:v1:`;
-concurrent views never update a shared counter. The private read endpoint lists
-metadata in cursor-paginated batches. The editor follows all batches before
-showing totals, and shows an error instead of partial totals if any batch fails.
-KV propagation may delay new views by about a minute. Statistics never modify
-`public-content` or the existing dates/menu/reviews data. Editor visits are not
-tracked. The collector has origin, size, type, known-page and consent checks,
-basic bot filtering and a bounded per-isolate burst guard.
-
-Cloudflare's account-level KV quotas apply (one write per consenting page view;
-one list per 1,000 views per refresh). This event log suits a small business site.
-A high-volume site should migrate analytics to a dedicated database and stronger
-edge rate limiting; the burst guard is not a global rate limiter. Storage or
-quota failures do not block public browsing, and unavailable statistics never
-appear as invented zero totals. Long-term events persist while the KV namespace
-is retained. Cancelling ChatGPT does not delete these GitHub/Cloudflare files.
-
-Run server security/collection tests with Node 22+:
-`node --test tests/visitor-statistics.test.mjs`.
+First-party page counting runs without an acceptance prompt. Privacy includes an opt-out,
+and existing refusals, DNT and GPC remain respected. No browser identifier is created;
+old identifiers are removed. Only the page, UK week and date are retained with a
+random per-view event key. Unique visitors are not measured. The v2 prefix keeps
+these figures separate from historical consent-based v1 statistics. Owner authentication,
+KV pagination and immutable per-view writes are preserved. No other website data changes.

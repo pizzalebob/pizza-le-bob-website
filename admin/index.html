@@ -7,15 +7,15 @@
 <div id="statsResults" hidden>
 <label for="statsWeek">Week to view</label><select id="statsWeek"></select>
 <div class="stats-cards">
-<div class="stats-card">Weekly unique visitors<strong id="statsWeeklyVisitors">0</strong></div><div class="stats-card">Weekly page views<strong id="statsWeeklyViews">0</strong></div>
-<div class="stats-card">Cumulative unique visitors<strong id="statsTotalVisitors">0</strong></div><div class="stats-card">Cumulative page views<strong id="statsTotalViews">0</strong></div>
+<div class="stats-card">Weekly page views<strong id="statsWeeklyViews">0</strong></div>
+<div class="stats-card">Cumulative page views<strong id="statsTotalViews">0</strong></div>
 </div><small id="statsSince"></small><h3>Every page</h3>
-<div class="stats-table-wrap"><table class="stats-table"><thead><tr><th scope="col">Page</th><th scope="col">Weekly visitors</th><th scope="col">Weekly views</th><th scope="col">Total visitors</th><th scope="col">Total views</th></tr></thead><tbody id="statsRows"></tbody></table></div>
+<div class="stats-table-wrap"><table class="stats-table"><thead><tr><th scope="col">Page</th><th scope="col">Weekly views</th><th scope="col">Total views</th></tr></thead><tbody id="statsRows"></tbody></table></div>
 <h3>Weekly graph</h3><div class="row"><div><label for="statsPage">Page</label><select id="statsPage"></select></div><div><label for="statsRange">Weeks shown</label><select id="statsRange"><option value="12">Last 12 weeks</option><option value="26">Last 26 weeks</option><option value="52">Last 52 weeks</option></select></div></div>
-<div class="stats-legend"><span>Unique visitors</span><span>Page views</span></div><div id="statsGraph"></div>
-<details><summary>View graph as a table</summary><div class="stats-table-wrap"><table class="stats-table"><thead><tr><th scope="col">Week beginning</th><th scope="col">Visitors</th><th scope="col">Views</th></tr></thead><tbody id="statsGraphRows"></tbody></table></div></details>
+<div class="stats-legend"><span>Page views</span></div><div id="statsGraph"></div>
+<details><summary>View graph as a table</summary><div class="stats-table-wrap"><table class="stats-table"><thead><tr><th scope="col">Week beginning</th><th scope="col">Views</th></tr></thead><tbody id="statsGraphRows"></tbody></table></div></details>
 <p><small id="statsUpdated"></small></p></div>
-<p><small>These figures count browsers that allow anonymous visitor analytics. A unique visitor is counted once for the selected week or cumulative period, even when they view several pages. Overall unique visitors are deduplicated across all pages and weeks. Returning browsers count again in each weekly figure. Different devices, clearing browser data or withdrawing and allowing analytics again can count the same person again. Visitors who decline analytics, use privacy signals, block scripts or cannot send events are excluded. Visits to the editor are excluded.</small></p>
+<p><small>These figures count page views without requiring acceptance or storing a browser identifier. Repeat views count again; unique people are not measured. Counting starts from this update; previous consent-based records are kept separately and are not mixed into these totals. Visitors who opt out, use browser privacy signals, block scripts or cannot send events are excluded. Visits to the editor are excluded.</small></p>
 <small>Stored on your own Cloudflare setup. Your existing Cloudflare Web Analytics beacon remains active for its separate traffic reports. This tab and its counts work independently of a ChatGPT subscription.</small>
 </section><div class="actions" id="editorSaveActions"><button type="button" class="primary" id="save">Save to website</button><a class="secondary" style="padding:12px 15px;border-radius:8px;text-decoration:none;font-weight:700" href="/">View website</a></div><p><small>Changes become public after you press Save. The editor will require your Cloudflare Access sign-in when deployed.</small></p></main><script>
 const $=id=>document.getElementById(id), status=$('status');let events=[], menu=[], reviews=[], pagePhotos={}, galleryPhotos=[], loaded=false, uploading=0;
