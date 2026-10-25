@@ -177,3 +177,71 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     row-gap:24px!important;
   }
 }
+
+/* Consistent readable typography across every public desktop page. */
+@media(min-width:1000px){
+  html body#bob-home{
+    --plb-body:clamp(22px,1.6vw,42px);
+    --plb-small:clamp(18px,1.25vw,32px);
+    --plb-subheading:clamp(26px,1.9vw,50px);
+    --plb-heading:clamp(38px,3vw,80px);
+  }
+  html body#bob-home>section,
+  html body#bob-home>footer{
+    font-size:var(--plb-body);
+  }
+  html body#bob-home>section :is(p,li,dt,dd,blockquote),
+  html body#bob-home>footer :is(p,li,a){
+    font-size:var(--plb-body)!important;
+    line-height:1.6!important;
+  }
+  html body#bob-home>section h2{
+    font-size:var(--plb-heading)!important;
+    line-height:1.15!important;
+  }
+  html body#bob-home>section :is(h3,h4),
+  html body#bob-home>footer h4{
+    font-size:var(--plb-subheading)!important;
+    line-height:1.25!important;
+  }
+  html body#bob-home>section :is(label,small,figcaption,.eyebrow,.form-note,.review-name,.review-date,.review-tags,.menu-file-type,.book-visual-caption),
+  html body#bob-home>footer .footer-bottom,
+  html body#bob-home>footer .footer-bottom a{
+    font-size:var(--plb-small)!important;
+    line-height:1.5!important;
+  }
+  html body#bob-home>section :is(input,textarea,select,button,.btn,.corporate-menu-links a,.corporate-menu-choice a){
+    font-size:var(--plb-body)!important;
+    line-height:1.4!important;
+  }
+  html body#bob-home #home h1{
+    font-size:clamp(54px,4.5vw,110px)!important;
+    line-height:1.2!important;
+  }
+  html body#bob-home :is(.story-article,.story-build,.provenance-inner){
+    max-width:68ch;
+  }
+  html body#bob-home :is(.reviews-intro,.section-head){
+    max-width:65ch;
+  }
+  html body#bob-home .corporate-form-wrap{
+    max-width:1100px;
+  }
+  html body#bob-home .provenance-tags span{
+    font-size:var(--plb-small)!important;
+  }
+  html body#bob-home #menu .menu-item-name{
+    font-size:clamp(36px,2.4vw,64px)!important;
+    line-height:1.15!important;
+  }
+  html body#bob-home #menu .menu-item-price{
+    font-size:clamp(28px,1.8vw,48px)!important;
+  }
+  html body#bob-home #menu :is(.menu-item-desc,.menu-guide,.menu-footnote,.allergy-note,.pizza-preview-caption p,.weekly-special-content>p){
+    font-size:clamp(22px,1.5vw,40px)!important;
+    line-height:1.55!important;
+  }
+  html body#bob-home #menu .pizza-preview-caption h3{
+    font-size:clamp(36px,2.4vw,64px)!important;
+  }
+}
