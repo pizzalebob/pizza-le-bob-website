@@ -109,7 +109,7 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
 
 /* Fill wide desktop windows while preserving the tablet and mobile layouts. */
 @media(min-width:1320px){
-  body#bob-home,body#bob-home.menu-page{
+  html body#bob-home,html body#bob-home.menu-page{
     width:94%!important;
     max-width:none!important;
   }
