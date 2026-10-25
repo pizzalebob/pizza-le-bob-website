@@ -114,3 +114,55 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     max-width:none!important;
   }
 }
+
+/* Keep the header and date banner in proportion on wide desktop screens. */
+@media(min-width:1320px){
+  html body#bob-home>header.top.bob-theme{
+    grid-template-columns:clamp(220px,16vw,400px) minmax(0,1fr)!important;
+    gap:clamp(20px,1.5vw,36px)!important;
+    padding-top:clamp(20px,1.4vw,34px)!important;
+    padding-bottom:clamp(20px,1.4vw,34px)!important;
+  }
+  html body#bob-home>header.top.bob-theme .brand{
+    font-size:clamp(29px,2.1vw,50px)!important;
+    gap:clamp(12px,1vw,24px)!important;
+  }
+  html body#bob-home>header.top.bob-theme .brand>img{
+    width:clamp(76px,5.3vw,132px)!important;
+    flex-shrink:0;
+  }
+  html body#bob-home>header.top.bob-theme nav{
+    grid-auto-rows:clamp(40px,3vw,72px)!important;
+    gap:clamp(10px,.75vw,18px)!important;
+  }
+  html body#bob-home>header.top.bob-theme nav a{
+    height:clamp(40px,3vw,72px)!important;
+    min-height:clamp(40px,3vw,72px)!important;
+    font-size:clamp(23px,1.65vw,40px)!important;
+  }
+  html body#bob-home.menu-page>header.top.bob-theme{
+    grid-template-columns:clamp(320px,24vw,560px) minmax(0,1fr)!important;
+  }
+  html body#bob-home .home-dates-heading .eyebrow,
+  html body#bob-home .home-dates-heading a{
+    font-size:clamp(14px,1vw,23px);
+  }
+  html body#bob-home.menu-page .menu-neon-wordmark{
+    font-size:clamp(69px,4.8vw,110px)!important;
+  }
+  html body#bob-home #upcomingDates .compact-number strong{
+    font-size:clamp(35px,2.45vw,58px)!important;
+  }
+  html body#bob-home #upcomingDates .compact-number span,
+  html body#bob-home #upcomingDates .compact-details strong,
+  html body#bob-home #upcomingDates .compact-details small,
+  html body#bob-home #upcomingDates .compact-details span{
+    font-size:clamp(.92rem,1.05vw,24px)!important;
+  }
+  html body#bob-home .home-dates-heading{
+    font-size:clamp(16px,1.15vw,26px);
+  }
+  html body#bob-home .home-dates-heading h2{
+    font-size:clamp(23px,1.6vw,36px);
+  }
+}
