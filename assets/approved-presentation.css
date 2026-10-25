@@ -138,7 +138,8 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
   html body#bob-home>header.top.bob-theme nav a{
     height:clamp(40px,3vw,72px)!important;
     min-height:clamp(40px,3vw,72px)!important;
-    font-size:clamp(28px,2.25vw,54px)!important;
+    font-size:clamp(32px,2.9vw,68px)!important;
+    line-height:.95!important;
     padding-top:0!important;
     padding-bottom:0!important;
   }
@@ -147,24 +148,32 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
   }
   html body#bob-home .home-dates-heading .eyebrow,
   html body#bob-home .home-dates-heading a{
-    font-size:clamp(18px,1.35vw,30px);
+    font-size:clamp(22px,1.7vw,40px);
   }
   html body#bob-home.menu-page .menu-neon-wordmark{
     font-size:clamp(69px,4.8vw,110px)!important;
   }
   html body#bob-home #upcomingDates .compact-number strong{
-    font-size:clamp(46px,3.2vw,76px)!important;
+    font-size:clamp(60px,4.3vw,104px)!important;
   }
   html body#bob-home #upcomingDates .compact-number span,
   html body#bob-home #upcomingDates .compact-details strong,
   html body#bob-home #upcomingDates .compact-details small,
   html body#bob-home #upcomingDates .compact-details span{
-    font-size:clamp(20px,1.45vw,34px)!important;
+    font-size:clamp(26px,2.1vw,50px)!important;
   }
   html body#bob-home .home-dates-heading{
     font-size:clamp(16px,1.15vw,26px);
   }
   html body#bob-home .home-dates-heading h2{
-    font-size:clamp(29px,2.1vw,48px);
+    font-size:clamp(32px,2.5vw,60px);
+  }
+}
+
+/* Give enlarged date text room on medium desktop windows. */
+@media(min-width:1320px) and (max-width:1899px){
+  html body#bob-home #upcomingDates{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    row-gap:24px!important;
   }
 }
