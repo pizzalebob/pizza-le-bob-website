@@ -181,10 +181,10 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
 /* Consistent readable typography across every public desktop page. */
 @media(min-width:1000px){
   html body#bob-home{
-    --plb-body:clamp(22px,1.6vw,42px);
-    --plb-small:clamp(18px,1.25vw,32px);
-    --plb-subheading:clamp(26px,1.9vw,50px);
-    --plb-heading:clamp(38px,3vw,80px);
+    --plb-body:clamp(34px,2.7vw,72px);
+    --plb-small:clamp(26px,2vw,54px);
+    --plb-subheading:clamp(38px,2.8vw,76px);
+    --plb-heading:clamp(50px,4vw,110px);
   }
   html body#bob-home>section,
   html body#bob-home>footer{
@@ -231,18 +231,18 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     font-size:var(--plb-small)!important;
   }
   html body#bob-home #menu .menu-item-name{
-    font-size:clamp(36px,2.4vw,64px)!important;
+    font-size:clamp(44px,3.2vw,86px)!important;
     line-height:1.15!important;
   }
   html body#bob-home #menu .menu-item-price{
-    font-size:clamp(28px,1.8vw,48px)!important;
+    font-size:clamp(36px,2.5vw,68px)!important;
   }
   html body#bob-home #menu :is(.menu-item-desc,.menu-guide,.menu-footnote,.allergy-note,.pizza-preview-caption p,.weekly-special-content>p){
-    font-size:clamp(22px,1.5vw,40px)!important;
+    font-size:clamp(32px,2.4vw,64px)!important;
     line-height:1.55!important;
   }
   html body#bob-home #menu .pizza-preview-caption h3{
-    font-size:clamp(36px,2.4vw,64px)!important;
+    font-size:clamp(44px,3.2vw,86px)!important;
   }
 }
 
@@ -264,4 +264,22 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     padding-right:4px!important;
     line-height:1!important;
   }
+}
+
+/* Keep large desktop text comfortably spaced in medium-width layouts. */
+@media(min-width:1000px) and (max-width:1799px){
+  html body#bob-home .reviews-masonry{column-count:2}
+}
+@media(min-width:1000px) and (max-width:1599px){
+  html body#bob-home #menu .menu-layout{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:32px;
+  }
+  html body#bob-home #menu .pizza-preview{
+    grid-column:1/-1;grid-row:1;
+    max-width:420px;justify-self:center;margin:0;
+  }
+  html body#bob-home #menu .menu-left{grid-column:1;grid-row:2}
+  html body#bob-home #menu .menu-right{grid-column:2;grid-row:2}
+  html body#bob-home .form-row{grid-template-columns:minmax(0,1fr)}
 }
