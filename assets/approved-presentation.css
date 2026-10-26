@@ -138,7 +138,7 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
   html body#bob-home>header.top.bob-theme nav a{
     height:clamp(40px,3vw,72px)!important;
     min-height:clamp(40px,3vw,72px)!important;
-    font-size:clamp(32px,2.9vw,68px)!important;
+    font-size:clamp(22px,1.4vw,30px)!important;
     line-height:.95!important;
     padding-top:0!important;
     padding-bottom:0!important;
@@ -148,25 +148,25 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
   }
   html body#bob-home .home-dates-heading .eyebrow,
   html body#bob-home .home-dates-heading a{
-    font-size:clamp(22px,1.7vw,40px);
+    font-size:clamp(18px,1.1vw,24px);
   }
   html body#bob-home.menu-page .menu-neon-wordmark{
     font-size:clamp(69px,4.8vw,110px)!important;
   }
   html body#bob-home #upcomingDates .compact-number strong{
-    font-size:clamp(60px,4.3vw,104px)!important;
+    font-size:clamp(40px,2.7vw,64px)!important;
   }
   html body#bob-home #upcomingDates .compact-number span,
   html body#bob-home #upcomingDates .compact-details strong,
   html body#bob-home #upcomingDates .compact-details small,
   html body#bob-home #upcomingDates .compact-details span{
-    font-size:clamp(26px,2.1vw,50px)!important;
+    font-size:clamp(19px,1.2vw,27px)!important;
   }
   html body#bob-home .home-dates-heading{
     font-size:clamp(16px,1.15vw,26px);
   }
   html body#bob-home .home-dates-heading h2{
-    font-size:clamp(32px,2.5vw,60px);
+    font-size:clamp(28px,1.8vw,40px);
   }
 }
 
@@ -181,10 +181,10 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
 /* Consistent readable typography across every public desktop page. */
 @media(min-width:1000px){
   html body#bob-home{
-    --plb-body:clamp(34px,2.7vw,72px);
-    --plb-small:clamp(26px,2vw,54px);
-    --plb-subheading:clamp(38px,2.8vw,76px);
-    --plb-heading:clamp(50px,4vw,110px);
+    --plb-body:clamp(20px,1.15vw,26px);
+    --plb-small:clamp(16px,.9vw,20px);
+    --plb-subheading:clamp(26px,1.5vw,34px);
+    --plb-heading:clamp(40px,2.7vw,64px);
   }
   html body#bob-home>section,
   html body#bob-home>footer{
@@ -215,7 +215,7 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     line-height:1.4!important;
   }
   html body#bob-home #home h1{
-    font-size:clamp(54px,4.5vw,110px)!important;
+    font-size:clamp(48px,3.4vw,78px)!important;
     line-height:1.2!important;
   }
   html body#bob-home :is(.story-article,.story-build,.provenance-inner){
@@ -231,18 +231,18 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     font-size:var(--plb-small)!important;
   }
   html body#bob-home #menu .menu-item-name{
-    font-size:clamp(44px,3.2vw,86px)!important;
+    font-size:clamp(30px,1.8vw,38px)!important;
     line-height:1.15!important;
   }
   html body#bob-home #menu .menu-item-price{
-    font-size:clamp(36px,2.5vw,68px)!important;
+    font-size:clamp(24px,1.4vw,30px)!important;
   }
   html body#bob-home #menu :is(.menu-item-desc,.menu-guide,.menu-footnote,.allergy-note,.pizza-preview-caption p,.weekly-special-content>p){
-    font-size:clamp(32px,2.4vw,64px)!important;
+    font-size:clamp(17px,1vw,21px)!important;
     line-height:1.55!important;
   }
   html body#bob-home #menu .pizza-preview-caption h3{
-    font-size:clamp(44px,3.2vw,86px)!important;
+    font-size:clamp(30px,1.8vw,38px)!important;
   }
 }
 
@@ -254,12 +254,12 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
     line-height:1.6!important;
   }
   html body#bob-home #menu .menu-heading h2{
-    font-size:clamp(48px,5.4vw,110px)!important;
+    font-size:clamp(44px,3.4vw,76px)!important;
   }
 }
 @media(min-width:1320px){
   html body#bob-home.menu-page>header.top.bob-theme nav a{
-    font-size:clamp(28px,2.25vw,58px)!important;
+    font-size:clamp(22px,1.4vw,30px)!important;
     padding-left:4px!important;
     padding-right:4px!important;
     line-height:1!important;
