@@ -271,16 +271,6 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
   html body#bob-home .reviews-masonry{column-count:2}
 }
 @media(min-width:1000px) and (max-width:1599px){
-  html body#bob-home #menu .menu-layout{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:32px;
-  }
-  html body#bob-home #menu .pizza-preview{
-    grid-column:1/-1;grid-row:1;
-    max-width:420px;justify-self:center;margin:0;
-  }
-  html body#bob-home #menu .menu-left{grid-column:1;grid-row:2}
-  html body#bob-home #menu .menu-right{grid-column:2;grid-row:2}
   html body#bob-home .form-row{grid-template-columns:minmax(0,1fr)}
 }
 
