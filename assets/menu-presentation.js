@@ -58,7 +58,7 @@
     parent.append(neon);
   }
   const updatePage = () => {
-    const active = location.hash === '#menu';
+    const active = document.querySelector('body > section.active-section')?.id === 'menu';
     document.body.classList.toggle('menu-page', active);
     document.documentElement.classList.toggle('menu-page', active);
   };

@@ -1,3 +1,4 @@
+import {ORIGIN, SEARCH_PAGES, pageForPath, publicLink, structuredData} from '../lib/search-pages.js';
 import {PHOTO_SLOTS} from '../assets/page-photo-config.js';
 // Place the corporate package menus beside the event information.
 const menuChoice = `
@@ -24,21 +25,40 @@ function reviewCards(reviews) {
 }
 
 export async function onRequest(context) {
-  const response = await context.next();
-  const path = new URL(context.request.url).pathname;
-  if (context.request.method !== "GET" ||
-      !["/", "/index.html"].includes(path) ||
-      !response.headers.get("content-type")?.includes("text/html")) {
+  const url = new URL(context.request.url);
+  const path = url.pathname;
+  if (!['GET','HEAD'].includes(context.request.method)) return context.next();
+  const cleanPath = path.replace(/\/$/, '') || '/';
+  const page = pageForPath(cleanPath);
+  if (path === '/index.html' || path === '/pizza-le-bob-final.html' || (page && path !== page.path)) {
+    return Response.redirect(url.origin + (page?.path || '/') + url.search, 301);
+  }
+  if (!page) {
+    const response = await context.next();
+    // Pages otherwise falls back to the homepage for nonexistent URLs.
+    if (response.headers.get('content-type')?.includes('text/html') && !path.startsWith('/admin'))
+      return new Response('Page not found', {status:404,headers:{'Content-Type':'text/plain; charset=utf-8'}});
     return response;
   }
+  const response = await context.next(new URL('/', url).href);
+  if (!response.headers.get('content-type')?.includes('text/html')) return response;
   let reviews=[],pagePhotos={},galleryPhotos=[];
   try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; if(content?.pagePhotos) pagePhotos=content.pagePhotos; if(Array.isArray(content?.galleryPhotos)) galleryPhotos=content.galleryPhotos; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
   const rewriter = new HTMLRewriter()
+    .on('title', {element(element){element.setInnerContent(page.title);}})
+    .on('body', {element(element){element.setAttribute('data-page-section',page.section);}})
+    .on('body > section', {element(element){
+      const id=element.getAttribute('id');
+      if(id!==page.section && !(page.section==='gallery' && id==='provenance')) element.remove();
+    }})
+    .on('.home-dates', {element(element){if(!['home','popup'].includes(page.section))element.setAttribute('hidden','');}})
+    .on('a[href]', {element(element){const href=element.getAttribute('href');const next=publicLink(href);if(next!==href)element.setAttribute('href',next);}})
+
     .on('head link[rel="icon"], head link[rel="shortcut icon"], head link[rel="apple-touch-icon"], head link[rel="mask-icon"]', { element(element) { element.remove(); } })
-    .on('head', { element(element) { element.append('<meta name="description" content="Authentic Neapolitan-style pizza to take away in Morley, plus mobile pizza trailer catering for weddings, parties and corporate events across Leeds."><link rel="canonical" href="https://www.pizzalebob.co.uk/"><link rel="icon" type="image/png" sizes="256x256" href="/assets/icons/pizza-le-bob-256.png?v=plb-logo-1"><link rel="shortcut icon" href="/favicon.ico?v=plb-logo-1"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v=plb-logo-1"><style>#weddings .wedding-layout{align-items:start}</style><link rel="stylesheet" href="/assets/approved-presentation.css?v=20261025-large-type-3"><link rel="stylesheet" href="/assets/menu-presentation.css?v=20261021-1">', {html:true}); } })
-    .on('body', { element(element) { element.append('<script src="/assets/visitor-tracking.js" defer></script><script src="/assets/approved-presentation.js" defer></script><script src="/assets/menu-presentation.js?v=20261021-2" defer></script>', {html:true}); } })
+    .on('head', { element(element) { element.append('<meta name="description" content="'+escapeHtml(page.description)+'"><link rel="canonical" href="'+ORIGIN+page.path+'"><link rel="icon" type="image/png" sizes="256x256" href="/assets/icons/pizza-le-bob-256.png?v=plb-logo-1"><link rel="shortcut icon" href="/favicon.ico?v=plb-logo-1"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png?v=plb-logo-1"><meta property="og:type" content="website"><meta property="og:site_name" content="Pizza le Bob"><meta property="og:title" content="'+escapeHtml(page.title)+'"><meta property="og:description" content="'+escapeHtml(page.description)+'"><meta property="og:url" content="'+ORIGIN+page.path+'"><script type="application/ld+json">'+structuredData(page)+'</script><style>#weddings .wedding-layout{align-items:start}</style><link rel="stylesheet" href="/assets/approved-presentation.css?v=20261025-large-type-3"><link rel="stylesheet" href="/assets/menu-presentation.css?v=20261021-1">', {html:true}); } })
+    .on('body', { element(element) { element.append('<script src="/assets/visitor-tracking.js?v=20261026-routes-1" defer></script><script src="/assets/approved-presentation.js" defer></script><script src="/assets/menu-presentation.js?v=20261026-routes-1" defer></script>', {html:true}); } })
     .on('#privacy .wrap', { element(element) { element.append('<p>Cloudflare hosts this website and provides its privacy-focused Web Analytics. We also count page views to understand and improve the website. Our own counter sends only the page name and a random identifier for that single page view; it does not store a browser identifier, IP address, name, email or browsing history. Records retain only the page and date and cannot link your page views together. Repeat views count again. Counting runs without an acceptance prompt. You can turn it off using the button below, and we honour browser Do Not Track and Global Privacy Control signals for our own counter. We remember only your choice on this browser. Previous refusals remain respected and old browser identifiers are removed. Existing anonymous statistics remain. Google Fonts contacts Google. The embedded Google map loads only after you choose Enable Google map; Get directions opens Google Maps separately.</p>', {html:true}); } })
-    .on('header #navLinks', { element(element) { element.setInnerContent("<a href=\"#home\">Home</a><a href=\"#menu\">Menu</a><a href=\"#story\">Our Story</a><a href=\"#weddings\">Weddings</a><a href=\"#corporate\">Corporate</a><a href=\"#popup\">Pop-up</a><a href=\"#gallery\">Gallery</a><a href=\"#reviews\">Reviews</a><a href=\"#book\">Book your event</a>", {html:true}); } })
+    .on('header #navLinks', { element(element) { element.setInnerContent("<a href=\"/\">Home</a><a href=\"/pizza-menu\">Menu</a><a href=\"/our-story\">Our Story</a><a href=\"/wedding-pizza-catering-leeds\">Weddings</a><a href=\"/corporate-pizza-catering-leeds\">Corporate</a><a href=\"/pizza-takeaway-morley\">Pop-up</a><a href=\"/gallery\">Gallery</a><a href=\"/reviews\">Reviews</a><a href=\"/mobile-pizza-catering-leeds\">Book your event</a>", {html:true}); } })
     .on('#menu .section-head p', { element(element) { element.setInnerContent("Authentic 12\" Neapolitan-style pizzas - made to order"); } })
     .on('#popup .section-head p', { element(element) { element.setInnerContent("Find the trailer parked up at the Gardeners Arms in Morley (see map below) - currently firing up most Friday and Saturday evenings. Always check the banner above for confirmed dates. \u2014 no booking required, though pre-ordering means you won't miss out. Click on the menu button above to see the current menu and this week's special."); element.after("<div class=\"popup-how-it-works\" style=\"margin-top:24px\"><p style=\"color:var(--cream);margin-top:0\"><strong>So how does it work?</strong></p><p>Most people pre-order using WhatsApp and collect their pizzas to take home without having to wait. Others also turn up at the trailer, order and then go and have a drink in the pub. (or the Beer Garden in good weather) They receive a buzzer which tells them when their order is ready. Customers are welcome to eat their pizza in the pub for the full dine-in experience! When customers order on WhatsApp they pay on collection - cash or card. Customers ordering at the trailer pay when ordering.</p></div>", {html:true}); } })
     .on("#reviews .reviews-masonry", { element(element) { if(reviews.length) element.prepend(reviewCards(reviews), {html:true}); } })

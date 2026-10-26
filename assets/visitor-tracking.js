@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  if(!['/','/index.html'].includes(location.pathname))return;
+  if(!document.querySelector('body > section.active-section'))return;
   const pages=new Set(['home','popup','menu','story','weddings','corporate','book','gallery','provenance','reviews','privacy']);
   const choiceKey='plb-analytics-choice-v1';
   let choice=null,lastPage=null;
