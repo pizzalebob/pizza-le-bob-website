@@ -45,9 +45,9 @@ export async function onRequest(context) {
   let reviews=[],pagePhotos={},galleryPhotos=[];
   try { const content=await context.env.CONTENT.get("public-content",{type:"json"}); if(Array.isArray(content?.reviews)) reviews=content.reviews; if(content?.pagePhotos) pagePhotos=content.pagePhotos; if(Array.isArray(content?.galleryPhotos)) galleryPhotos=content.galleryPhotos; } catch { /* Keep the existing reviews available if storage is unavailable. */ }
   const rewriter = new HTMLRewriter()
-    .on('#weddings .section-head h2', {element(element){element.setInnerContent('Wedding Pizza Catering in Leeds');}})
-    .on('#corporate .section-head h2', {element(element){element.setInnerContent('Corporate Pizza Catering in Leeds');}})
-    .on('#book .section-head h2', {element(element){element.setInnerContent('Mobile Pizza Catering in Leeds');}})
+    .on('#weddings > .section-head h2', {element(element){element.setInnerContent('Wedding Pizza Catering in Leeds');}})
+    .on('#corporate > .section-head h2', {element(element){element.setInnerContent('Corporate Pizza Catering in Leeds');}})
+    .on('#book > .section-head h2', {element(element){element.setInnerContent('Mobile Pizza Catering in Leeds');}})
     .on('#book .section-head', {element(element){element.append('<p>Based in Morley, Pizza le Bob brings authentic Neapolitan-style pizza to parties, weddings and corporate events in Leeds and nearby areas. Our mobile pizza trailer comes to your venue, with pizzas freshly prepared and cooked on site. Tell us your date, venue and guest numbers, and we’ll come back with availability and a tailored quote.</p>', {html:true});}})
     .on('title', {element(element){element.setInnerContent(page.title);}})
     .on('body', {element(element){element.setAttribute('data-page-section',page.section);}})
