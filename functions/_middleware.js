@@ -48,6 +48,7 @@ export async function onRequest(context) {
   const rewriter = new HTMLRewriter()
     .on('header.top', {element(element){if(page.section==='parties')element.after(partyPage(pagePhotos),{html:true});}})
     .on('#book .book-info-item:nth-child(2) h3', {element(element){element.setInnerContent('<a href="/party-pizza-catering-leeds" style="color:inherit;text-decoration:underline;text-underline-offset:4px">Corporate &amp; Private Parties</a>',{html:true});}})
+    .on('#popup > .section-head h2', {element(element){element.setInnerContent('The weekly pop-up pizza takeaway in Morley');}})
     .on('#weddings > .section-head h2', {element(element){element.setInnerContent('Wedding Pizza Catering in Leeds');}})
     .on('#corporate > .section-head h2', {element(element){element.setInnerContent('Corporate Pizza Catering in Leeds');}})
     .on('#book > .section-head h2', {element(element){element.setInnerContent('Mobile Pizza Catering in Leeds');}})
