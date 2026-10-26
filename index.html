@@ -947,8 +947,8 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
             <option value="Premium menu £12.50 per head">Premium menu £12.50 per head</option>
           </select>
           <div class="corporate-menu-links" aria-label="Corporate menu documents">
-            <a href="assets/menus/alegre-corporate-menu.pdf" target="_blank" rel="noopener">View Alegre menu <span class="menu-file-type">(PDF)</span></a>
-            <a href="assets/menus/premium-corporate-menu.pdf" target="_blank" rel="noopener">View Premium menu <span class="menu-file-type">(PDF)</span></a>
+            <a href="/assets/menus/alegre-corporate-menu.pdf" target="_blank" rel="noopener">View Alegre menu <span class="menu-file-type">(PDF)</span></a>
+            <a href="/assets/menus/premium-corporate-menu.pdf" target="_blank" rel="noopener">View Premium menu <span class="menu-file-type">(PDF)</span></a>
           </div>
         </div>
       </div>
@@ -1389,17 +1389,27 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   const sections = [...document.querySelectorAll('body > section')];
   const sectionIds = new Set(sections.map(section => section.id));
   const viewFor = (hash) => {
-    const id = decodeURIComponent((hash || '#home').slice(1));
+    const id = decodeURIComponent((hash || '#' + (document.body.dataset.pageSection || 'home')).slice(1));
+    if (id === 'provenance') return {section:'gallery', target:id};
     if (id === 'corporate-form') return {section:'corporate', target:id};
-    return {section:sectionIds.has(id) ? id : 'home', target:null};
+    return {section:sectionIds.has(id) ? id : (document.body.dataset.pageSection || 'home'), target:null};
   };
   function showSection(){
+    const legacyRoutes = {home:'/',weddings:'/wedding-pizza-catering-leeds',corporate:'/corporate-pizza-catering-leeds',book:'/mobile-pizza-catering-leeds',menu:'/pizza-menu',popup:'/pizza-takeaway-morley',story:'/our-story',gallery:'/gallery',reviews:'/reviews',privacy:'/privacy'};
+    legacyRoutes['bob-home']='/';
+    legacyRoutes['corporate-form']='/corporate-pizza-catering-leeds#corporate-form';
+    legacyRoutes.provenance='/gallery#provenance';
+    const legacyId = window.location.hash.slice(1);
+    if(legacyRoutes[legacyId] && (location.pathname + location.hash !== legacyRoutes[legacyId])) {
+      location.replace(legacyRoutes[legacyId] + location.search);
+      return;
+    }
     const {section,target} = viewFor(window.location.hash);
     document.body.classList.add('section-mode');
     document.querySelector('.home-dates').hidden = !['home','popup'].includes(section);
     sections.forEach(el => el.classList.toggle('active-section', el.id === section || (section === 'gallery' && el.id === 'provenance')));
     navLinks.querySelectorAll('a').forEach(link => {
-      if (link.hash === '#' + section) link.setAttribute('aria-current','page');
+      if (link.pathname === (legacyRoutes[section] || '/') && !link.hash) link.setAttribute('aria-current','page');
       else link.removeAttribute('aria-current');
     });
     navLinks.classList.remove('open');
@@ -1425,16 +1435,16 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
     const date = new Date(firstSaturday);
     date.setUTCDate(firstSaturday.getUTCDate() + index * 7);
     const month = new Intl.DateTimeFormat('en-GB',{month:'short',timeZone:'UTC'}).format(date);
-    return `<a class="date-card" href="#popup" aria-label="Saturday ${date.getUTCDate()} ${month}: The Gardeners Arms from 4pm"><strong>${date.getUTCDate()}</strong><span><small>Sat · ${month}</small>The Gardeners Arms<br>from 4pm</span></a>`;
+    return `<a class="date-card" href="/pizza-takeaway-morley" aria-label="Saturday ${date.getUTCDate()} ${month}: The Gardeners Arms from 4pm"><strong>${date.getUTCDate()}</strong><span><small>Sat · ${month}</small>The Gardeners Arms<br>from 4pm</span></a>`;
   });
-  datesTrack.innerHTML = cards.join('');
+  if(datesTrack) datesTrack.innerHTML = cards.join('');
   // Published edits are loaded from the public Cloudflare endpoint when available.
   async function loadPublishedContent(){
     try{
       const response=await fetch('/api/content',{cache:'no-store'});
       if(!response.ok) return;
       const data=await response.json();
-      if(data.mode === 'manual' && Array.isArray(data.events)){
+      if(datesTrack && data.mode === 'manual' && Array.isArray(data.events)){
         const todayISO=`${getPart('year')}-${String(getPart('month')).padStart(2,'0')}-${String(getPart('day')).padStart(2,'0')}`;
         const upcoming=data.events.filter(event=>/^\d{4}-\d{2}-\d{2}$/.test(event.date) && event.date>=todayISO).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''));
         const daysOff=new Set(upcoming.filter(event=>event.status==='not-serving').map(event=>event.date));
@@ -1442,7 +1452,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
         datesTrack.replaceChildren();
         if(upcoming.length){
           const makeCard=event=>{
-            const link=document.createElement('a');link.className='date-card'+(event.status==='not-serving'?' date-cancelled':'');link.href='#popup';
+            const link=document.createElement('a');link.className='date-card'+(event.status==='not-serving'?' date-cancelled':'');link.href='/pizza-takeaway-morley';
             const day=document.createElement('strong');day.textContent=Number(event.date.slice(8));
             const details=document.createElement('span');
             const label=document.createElement('small');
@@ -1479,7 +1489,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   const mapChoice = document.getElementById('mapChoice');
   const mapContainer = document.getElementById('mapContainer');
   const disableMap = document.getElementById('disableMap');
-  document.getElementById('enableMap').addEventListener('click', () => {
+  document.getElementById('enableMap')?.addEventListener('click', () => {
     const map = document.createElement('iframe');
     map.title = 'Pizza le Bob location at The Gardeners Arms car park';
     map.src = 'https://www.google.com/maps?q=53.747295,-1.580849&z=17&output=embed';
@@ -1487,7 +1497,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
     map.referrerPolicy = 'no-referrer'; map.allowFullscreen = true;
     mapContainer.replaceChildren(map); mapChoice.hidden = true; disableMap.hidden = false;
   });
-  disableMap.addEventListener('click', () => {
+  disableMap?.addEventListener('click', () => {
     mapContainer.replaceChildren(); mapChoice.hidden = false; disableMap.hidden = true;
   });
 
@@ -1498,6 +1508,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   ]) {
     const enquiryForm = document.getElementById(formId);
     const status = document.getElementById(statusId);
+    if(!enquiryForm || !status) continue;
     const trap = document.createElement('input');
     trap.name = '_honey'; trap.type = 'text'; trap.tabIndex = -1;
     trap.autocomplete = 'off'; trap.style.display = 'none';
@@ -1581,6 +1592,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
   }
   window.renderPublishedMenu = menu => {
     const list=document.querySelector('#menu .menu-list');
+    if(!list)return;
     list.replaceChildren(...menu.filter(item=>!item.hidden).map(item=>{
       const row=document.createElement('div');row.className='menu-item';row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label','View '+item.name);
       row.dataset.pizza=item.name;row.dataset.photo=item.photo||'';row.dataset.special=String(item.special===true);
@@ -1590,12 +1602,13 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
       row.append(details,leader,price);return row;
     }));bindMenu();
   };
-  bindMenu();
+  if(preview) bindMenu();
 </script>
 
 <script>
 (()=>{
  const root=document.getElementById('home');
+ if(!root)return;
  const video=root.querySelector('.pizza-video');
  video.muted=true;
  video.loop=true;
@@ -1612,6 +1625,7 @@ body#bob-home>header.top .brand-title>.brand-line{display:block!important;white-
 <script>
 (() => {
  const video = document.getElementById('popupReveal');
+ if(!video)return;
  const still = document.getElementById('popupRevealStill');
  let plays = 0, started = false;
  video.muted = true;
