@@ -25,5 +25,5 @@ test('saved photos replace their spaces, escape descriptions and can be cleared'
 test('initial supplied photo and caption remain editable and explicitly clearing it restores a blank space',()=>{
  const initial=partyPage();assert.ok(initial.includes('/assets/parties/trailer-at-your-door.jpg'));assert.ok(initial.includes('<figcaption>The trailer brought to your door</figcaption>'));
  const edited=partyPage({'party-main':{photo:'data:image/jpeg;base64,Yw==',alt:'Replacement',caption:'New caption'}});assert.ok(edited.includes('<figcaption>New caption</figcaption>'));assert.ok(!edited.includes('/assets/parties/trailer-at-your-door.jpg'));
- const cleared=partyPage({'party-main':{photo:'',alt:'',caption:''}});assert.ok(!cleared.includes('<img'));assert.ok(!cleared.includes('<figcaption>'));
+ const cleared=partyPage({'party-main':{photo:'',alt:'',caption:''}});assert.ok(!cleared.includes('<img'));assert.ok(!cleared.match(/data-photo-slot="party-main"[\s\S]*?<\/figure>/)[0].includes('<figcaption>')); 
 });
