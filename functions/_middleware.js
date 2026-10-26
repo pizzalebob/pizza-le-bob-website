@@ -52,7 +52,7 @@ export async function onRequest(context) {
     .on('#weddings > .section-head h2', {element(element){element.setInnerContent('Wedding Pizza Catering in Leeds');}})
     .on('#corporate > .section-head h2', {element(element){element.setInnerContent('Corporate Pizza Catering in Leeds');}})
     .on('#book > .section-head h2', {element(element){element.setInnerContent('Mobile Pizza Catering in Leeds');}})
-    .on('#book .section-head', {element(element){element.append('<p>Based in Morley, Pizza le Bob brings authentic Neapolitan-style pizza to parties, weddings and corporate events in Leeds and nearby areas. Our mobile pizza trailer comes to your venue, with pizzas freshly prepared and cooked on site. Tell us your date, venue and guest numbers, and we’ll come back with availability and a tailored quote.</p>', {html:true});}})
+    .on('#book .section-head', {element(element){element.append('<p>Based in Leeds, Pizza le Bob brings authentic Neapolitan-style pizza to parties, weddings and corporate events around the city and nearby areas. Our mobile pizza trailer comes to your venue, with pizzas freshly prepared and cooked on site. Tell us your date, venue and guest numbers, and we’ll come back with availability and a tailored quote.</p>', {html:true});}})
     .on('title', {element(element){element.setInnerContent(page.title);}})
     .on('body', {element(element){element.setAttribute('data-page-section',page.section);}})
     .on('body > section', {element(element){
