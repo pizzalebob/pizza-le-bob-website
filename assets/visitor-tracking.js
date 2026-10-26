@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   if(!document.querySelector('body > section.active-section'))return;
-  const pages=new Set(['home','popup','menu','story','weddings','corporate','book','gallery','provenance','reviews','privacy']);
+  const pages=new Set(['home','popup','menu','story','weddings','corporate','parties','book','gallery','provenance','reviews','privacy']);
   const choiceKey='plb-analytics-choice-v1';
   let choice=null,lastPage=null;
   try{choice=localStorage.getItem(choiceKey);localStorage.removeItem('plb-analytics-visitor-v1');}catch{}

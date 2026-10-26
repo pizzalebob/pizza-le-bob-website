@@ -41,7 +41,7 @@ export async function onRequestPut({request,env}){
     if(!data.pagePhotos||typeof data.pagePhotos!=='object'||Array.isArray(data.pagePhotos)||Object.keys(data.pagePhotos).length>Object.keys(PHOTO_SLOTS).length)return new Response('Invalid page photos',{status:400});
     pagePhotos={};
     for(const [id,item]of Object.entries(data.pagePhotos)){
-      if(!Object.hasOwn(PHOTO_SLOTS,id)||!item||typeof item.photo!=='string'||item.photo.length>400000||!(item.photo===''||/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/.test(item.photo))||typeof item.alt!=='string'||item.alt.length>200)return new Response('Invalid page photo',{status:400});
+      if(!Object.hasOwn(PHOTO_SLOTS,id)||!item||typeof item.photo!=='string'||item.photo.length>400000||!(item.photo===''||item.photo===PHOTO_SLOTS[id].defaultPhoto||/^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/.test(item.photo))||typeof item.alt!=='string'||item.alt.length>200)return new Response('Invalid page photo',{status:400});
       const value={photo:item.photo,alt:item.alt};
       if(PHOTO_SLOTS[id].caption!==undefined){if(typeof item.caption!=='string'||item.caption.length>200)return new Response('Invalid photo caption',{status:400});value.caption=item.caption;}
       pagePhotos[id]=value;
