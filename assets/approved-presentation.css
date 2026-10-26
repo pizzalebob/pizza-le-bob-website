@@ -306,3 +306,11 @@ body#bob-home:not(.menu-page)>footer>.wrap{max-width:none;padding-left:0;padding
 
 /* Balance booking introduction lines to avoid a short final line. */
 body#bob-home #book > .section-head p{text-wrap:balance}
+
+/* Elegant, readable typography for the Home introduction only. */
+html body#bob-home #home .intro > p{
+  font-family:"Lora",Georgia,serif!important;
+  font-weight:400!important;
+  font-style:normal!important;
+}
+html body#bob-home #home .intro > p.italy-line{font-style:italic!important}
