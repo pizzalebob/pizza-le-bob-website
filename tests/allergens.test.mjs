@@ -20,10 +20,10 @@ test('missing, withdrawn, invalid and unreachable publications fail closed',asyn
 test('customer handler reads only the fixed public service and sets no-store',async()=>{
   const original=globalThis.fetch; let url,options;
   try {
-    globalThis.fetch=async(u,o)=>{url=u;options=o;return Response.json(fixture)};
+    globalThis.fetch=async(u,o)=>{url=u;options=o;if ('cache' in o) throw new Error("The 'cache' field on 'RequestInitializerDict' is not implemented.");return Response.json(fixture)};
     const result=await onRequestGet();
     assert.equal(result.status,200); assert.equal(url,'https://pizza-le-bob-food-staff-quiz.pizzalebob.workers.dev/api/public-allergens');
-    assert.equal(options.cache,'no-store'); assert.equal(options.redirect,'error');
+    assert.equal(options.cache,undefined); assert.deepEqual(options.cf,{cacheTtl:0,cacheEverything:false}); assert.equal(options.redirect,'error');
     assert.doesNotMatch(await result.text(),/private@example/);
     assert.match(result.headers.get('cache-control'),/no-store/);
   } finally {globalThis.fetch=original;}
