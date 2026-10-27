@@ -9,5 +9,7 @@ export async function onRequestGet() {
     });
     if (response.ok && response.headers.get('content-type')?.includes('application/json')) snapshot = publicSnapshot(await response.json());
   } catch { /* Fail closed: never invent information or serve a stale list. */ }
-  return new Response(allergenPage(snapshot), {status:snapshot?200:503, headers:allergenHeaders});
+  // The page is available even when server-to-server retrieval is unavailable:
+  // its browser loader validates and reads the same published public projection.
+  return new Response(allergenPage(snapshot), {status:200, headers:allergenHeaders});
 }
