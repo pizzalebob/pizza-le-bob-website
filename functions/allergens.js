@@ -5,7 +5,7 @@ export async function onRequestGet() {
   try {
     const response = await fetch('https://pizza-le-bob-food-staff-quiz.pizzalebob.workers.dev/api/public-allergens', {
       headers:{'Accept':'application/json','Cache-Control':'no-cache'},
-      cache:'no-store', redirect:'error', signal:AbortSignal.timeout(5000)
+      cf:{cacheTtl:0,cacheEverything:false}, redirect:'error', signal:AbortSignal.timeout(5000)
     });
     if (response.ok && response.headers.get('content-type')?.includes('application/json')) snapshot = publicSnapshot(await response.json());
   } catch { /* Fail closed: never invent information or serve a stale list. */ }
