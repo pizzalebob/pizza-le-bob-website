@@ -30,6 +30,7 @@ export async function onRequest(context) {
   const path = url.pathname;
   if (!['GET','HEAD'].includes(context.request.method)) return context.next();
   const cleanPath = path.replace(/\/$/, '') || '/';
+  if (['/allergens', '/allergen-sign'].includes(cleanPath)) return context.next();
   const page = pageForPath(cleanPath);
   if (path === '/index.html' || path === '/pizza-le-bob-final.html' || (page && path !== page.path)) {
     return Response.redirect(url.origin + (page?.path || '/') + url.search, 301);
@@ -110,3 +111,4 @@ export async function onRequest(context) {
   updated.headers.set("Cache-Control","no-store");
   return updated;
 }
+
