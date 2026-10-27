@@ -13,7 +13,7 @@ test('missing, withdrawn, invalid and unreachable publications fail closed',asyn
   try {
     for(const fn of [async()=>new Response('{}',{status:503}),async()=>Response.json({schemaVersion:5}),async()=>{throw new Error('offline')}]) {
       globalThis.fetch=fn;
-      const result=await onRequestGet(); assert.equal(result.status,503); assert.match(await result.text(),/Please speak to us before ordering/); assert.match(result.headers.get('cache-control'),/no-store/);
+      const result=await onRequestGet(); assert.equal(result.status,200); const html=await result.text(); assert.match(html,/Please speak to us before ordering/); assert.match(html,/allergen-loader.js/); assert.doesNotMatch(html,/<article class="pizza"/); assert.match(result.headers.get('cache-control'),/no-store/);
     }
   } finally {globalThis.fetch=original;}
 });
